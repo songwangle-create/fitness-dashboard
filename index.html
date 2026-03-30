@@ -945,6 +945,8 @@ function getPeriodRange(refDate, view) {
 
 function navigatePeriod(direction) {
   if (currentView === 'month') {
+    // 先设为1号，避免大日期溢出（如3月30日→setMonth(1)→2月30日→3月2日）
+    currentPeriodDate.setDate(1);
     currentPeriodDate.setMonth(currentPeriodDate.getMonth() + direction);
   } else {
     currentPeriodDate.setDate(currentPeriodDate.getDate() + direction * 7);
