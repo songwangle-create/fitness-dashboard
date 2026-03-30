@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Fitness Management</title>
+<style>
+  :root {
+    --bg: #f5f4ef;
+    --surface: #ffffff;
+    --text-primary: #1a1a1a;
+    --text-secondary: #6b6560;
+    --text-tertiary: #9b958f;
+    --border: #e5e0da;
+    --accent: #c96442;
+    --accent-light: #fdf0eb;
+    --accent-hover: #b5563a;
+    --tag-blue: #e8f0fe;
+    --tag-blue-text: #3b6dd4;
+    --tag-green: #e6f5ec;
+    --tag-green-text: #1a7d42;
+    --tag-purple: #f0e8fe;
+    --tag-purple-text: #6b3dd4;
+    --tag-orange: #fef3e8;
+    --tag-orange-text: #c96442;
+    --tag-pink: #fce8f0;
+    --tag-pink-text: #c43c6e;
+    --tag-gray: #f0eeea;
+    --tag-gray-text: #6b6560;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
+    --shadow-lg: 0 4px 12px rgba(0,0,0,0.06), 0 2px 4px rgba(0,0,0,0.04);
+    --font: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 40px 24px;
+  }
+
+  /* Header */
+  .header {
+    margin-bottom: 32px;
+  }
+
+  .header h1 {
+    font-size: 28px;
+    font-weight: 650;
+    letter-spacing: -0.5px;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+  }
+
+  .header p {
+    font-size: 14px;
+    color: var(--text-tertiary);
+  }
+
+  .sync-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #22c55e;
+    margin-right: 6px;
+    vertical-align: middle;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* Stats Bar */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    box-shadow: var(--shadow);
+  }
+
+  .stat-card .label {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+
+  .stat-card .value {
+    font-size: 24px;
+    font-weight: 650;
+    color: var(--text-primary);
+    letter-spacing: -0.5px;
+  }
+
+  .stat-card .unit {
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-weight: 400;
+  }
+
+  /* ====== Unified Filter Bar ====== */
+  .filter-bar {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 10px 16px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    box-shadow: var(--shadow);
+  }
+
+  /* Left: period navigator */
+  .period-nav {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .nav-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-secondary);
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+
+  .nav-btn:hover {
+    background: var(--bg);
+    color: var(--text-primary);
+  }
+
+  .nav-btn:active {
+    transform: scale(0.95);
+  }
+
+  .period-label {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-align: center;
+    min-width: 80px;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+    padding: 4px 8px;
+    border-radius: var(--radius-sm);
+    transition: background 0.15s;
+  }
+
+  .period-label:hover {
+    background: var(--bg);
+  }
+
+  .period-label:active {
+    color: var(--accent);
+  }
+
+  /* Right: view toggle + filter btn */
+  .filter-bar-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  /* View Toggle */
+  .view-toggle {
+    display: inline-flex;
+    background: var(--bg);
+    border-radius: var(--radius-sm);
+    padding: 2px;
+    border: 1px solid var(--border);
+  }
+
+  .view-toggle button {
+    font-family: var(--font);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 5px 14px;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--text-tertiary);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .view-toggle button.active {
+    background: var(--surface);
+    color: var(--text-primary);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+  }
+
+  /* Filter (funnel) button */
+  .filter-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-secondary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.15s;
+    position: relative;
+  }
+
+  .filter-btn:hover {
+    background: var(--bg);
+    color: var(--text-primary);
+  }
+
+  .filter-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .filter-btn.has-filter::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  /* ====== Desktop Filter Popover ====== */
+  .filter-popover-anchor {
+    position: relative;
+  }
+
+  .filter-popover {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    box-shadow: var(--shadow-lg);
+    z-index: 50;
+    min-width: 260px;
+  }
+
+  .filter-popover.show {
+    display: block;
+  }
+
+  .popover-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--text-primary);
+  }
+
+  .popover-title .close-pop {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    border: none;
+    background: var(--bg);
+    color: var(--text-tertiary);
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .popover-title .close-pop:hover {
+    color: var(--text-primary);
+  }
+
+  .popover-field {
+    margin-bottom: 12px;
+  }
+
+  .popover-field label {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+  }
+
+  .popover-field select {
+    width: 100%;
+    font-family: var(--font);
+    font-size: 13px;
+    padding: 7px 32px 7px 10px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--bg);
+    color: var(--text-primary);
+    outline: none;
+    cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239b958f' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px;
+  }
+
+  .popover-field select:focus {
+    border-color: var(--accent);
+  }
+
+  .popover-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  .popover-actions .btn {
+    flex: 1;
+    padding: 7px;
+    font-size: 13px;
+    text-align: center;
+  }
+
+  .btn {
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn:hover {
+    background: var(--bg);
+    color: var(--text-primary);
+  }
+
+  .btn-accent {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+
+  .btn-accent:hover {
+    background: var(--accent-hover);
+    border-color: var(--accent-hover);
+    color: white;
+  }
+
+  /* ====== Mobile Filter Drawer ====== */
+  .filter-drawer-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.3);
+    z-index: 100;
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+
+  .filter-drawer-backdrop.show {
+    display: block;
+    opacity: 1;
+  }
+
+  .filter-drawer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--surface);
+    border-radius: 16px 16px 0 0;
+    padding: 20px 16px;
+    z-index: 101;
+    transform: translateY(100%);
+    transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+
+  .filter-drawer.show {
+    transform: translateY(0);
+  }
+
+  .drawer-handle {
+    width: 36px;
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    margin: 0 auto 16px;
+  }
+
+  .drawer-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .drawer-title .close-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: none;
+    background: var(--bg);
+    color: var(--text-secondary);
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .drawer-field {
+    margin-bottom: 16px;
+  }
+
+  .drawer-field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+  }
+
+  .drawer-field select {
+    width: 100%;
+    font-family: var(--font);
+    font-size: 14px;
+    padding: 10px 36px 10px 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--bg);
+    color: var(--text-primary);
+    outline: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239b958f' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    background-size: 12px;
+  }
+
+  .drawer-field select:focus {
+    border-color: var(--accent);
+  }
+
+  .drawer-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .drawer-actions .btn {
+    flex: 1;
+    padding: 10px;
+    font-size: 14px;
+    text-align: center;
+  }
+
+  /* ====== Table ====== */
+  .table-wrapper {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+
+  .group-header {
+    padding: 12px 20px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    user-select: none;
+  }
+
+  .group-header:not(:first-child) {
+    border-top: 1px solid var(--border);
+  }
+
+  .group-header .count {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--text-tertiary);
+    background: var(--surface);
+    padding: 2px 8px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  thead th {
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 10px 20px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    white-space: nowrap;
+  }
+
+  tbody td {
+    padding: 12px 20px;
+    font-size: 13px;
+    color: var(--text-primary);
+    border-bottom: 1px solid #f0eeea;
+    vertical-align: middle;
+  }
+
+  tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  tbody tr:hover {
+    background: #faf9f6;
+  }
+
+  .date-cell {
+    white-space: nowrap;
+    color: var(--text-secondary);
+  }
+
+  .date-cell .day {
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .date-cell .weekday {
+    font-size: 11px;
+    color: var(--text-tertiary);
+  }
+
+  .time-cell {
+    color: var(--text-tertiary);
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  /* Exercise Type Tags */
+  .type-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .type-tag.resistance    { background: var(--tag-orange); color: var(--tag-orange-text); }
+  .type-tag.yoga          { background: var(--tag-purple); color: var(--tag-purple-text); }
+  .type-tag.swimming      { background: var(--tag-blue);   color: var(--tag-blue-text); }
+  .type-tag.running       { background: var(--tag-green);  color: var(--tag-green-text); }
+  .type-tag.other         { background: var(--tag-gray);   color: var(--tag-gray-text); }
+
+  .location-tag {
+    display: inline-block;
+    font-size: 11px;
+    color: var(--text-tertiary);
+    background: var(--tag-gray);
+    padding: 1px 7px;
+    border-radius: 4px;
+    margin-left: 4px;
+  }
+
+  .detail-cell {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  .detail-cell .exercise-item {
+    display: inline-block;
+    background: var(--bg);
+    padding: 1px 8px;
+    border-radius: 4px;
+    margin: 1px 2px;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  .notes-cell {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    font-style: italic;
+    max-width: 200px;
+  }
+
+  /* Empty state */
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-tertiary);
+  }
+
+  .empty-state .icon {
+    font-size: 40px;
+    margin-bottom: 12px;
+  }
+
+  .empty-state p {
+    font-size: 14px;
+  }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 24px;
+    font-size: 12px;
+    color: var(--text-tertiary);
+  }
+
+  /* ========== Responsive: Mobile ========== */
+  @media (max-width: 640px) {
+    .container { padding: 16px 12px; }
+
+    .header { margin-bottom: 20px; }
+    .header h1 { font-size: 22px; }
+    .header p { font-size: 12px; }
+
+    /* Stats: only 2 columns */
+    .stats-bar {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .stat-card.hide-mobile { display: none; }
+    .stat-card { padding: 12px 14px; }
+    .stat-card .value { font-size: 20px; }
+
+    /* Filter bar compact */
+    .filter-bar { padding: 8px 12px; gap: 8px; }
+    .period-label { font-size: 14px; min-width: 70px; padding: 4px 4px; }
+    .nav-btn { width: 30px; height: 30px; font-size: 14px; }
+    .view-toggle button { padding: 4px 10px; font-size: 11px; }
+    .filter-btn { width: 30px; height: 30px; }
+    .filter-btn svg { width: 14px; height: 14px; }
+
+    /* Table density */
+    .group-header { padding: 10px 14px; font-size: 13px; }
+    thead th { padding: 8px 10px; font-size: 10px; }
+    tbody td { padding: 10px 10px; font-size: 12px; }
+
+    /* Hide time column */
+    .col-time { display: none; }
+
+    .detail-cell .exercise-item {
+      font-size: 11px;
+      padding: 1px 6px;
+      margin: 1px 1px;
+    }
+
+    .type-tag {
+      padding: 2px 8px;
+      font-size: 11px;
+    }
+
+    .notes-cell {
+      max-width: 100px;
+      font-size: 11px;
+    }
+
+    .footer { padding: 16px; font-size: 11px; }
+  }
+
+  /* Tablet */
+  @media (min-width: 641px) and (max-width: 768px) {
+    .container { padding: 24px 16px; }
+    .stats-bar { grid-template-columns: repeat(2, 1fr); }
+    .stat-card.hide-mobile { display: none; }
+    .col-time { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Header -->
+  <div class="header">
+    <h1>🏋️ Fitness Management</h1>
+    <p><span class="sync-dot"></span>数据实时同步 · 上次更新 <span id="lastUpdate">--</span></p>
+  </div>
+
+  <!-- Stats Bar -->
+  <div class="stats-bar">
+    <div class="stat-card">
+      <div class="label">本月运动</div>
+      <div class="value" id="statMonthCount">0 <span class="unit">次</span></div>
+    </div>
+    <div class="stat-card hide-mobile">
+      <div class="label">本月天数</div>
+      <div class="value" id="statMonthDays">0 <span class="unit">天</span></div>
+    </div>
+    <div class="stat-card">
+      <div class="label">总记录</div>
+      <div class="value" id="statTotal">0 <span class="unit">条</span></div>
+    </div>
+    <div class="stat-card hide-mobile">
+      <div class="label">运动类型</div>
+      <div class="value" id="statTypes">0 <span class="unit">种</span></div>
+    </div>
+  </div>
+
+  <!-- Unified Filter Bar -->
+  <div class="filter-bar">
+    <!-- Left: period nav -->
+    <div class="period-nav">
+      <button class="nav-btn" onclick="navigatePeriod(-1)">‹</button>
+      <span class="period-label" id="periodLabel" onclick="navigateToNow()">--</span>
+      <button class="nav-btn" onclick="navigatePeriod(1)">›</button>
+    </div>
+
+    <!-- Right: view toggle + filter button -->
+    <div class="filter-bar-right">
+      <div class="view-toggle">
+        <button id="viewMonth" class="active" onclick="setView('month')">按月</button>
+        <button id="viewWeek" onclick="setView('week')">按周</button>
+      </div>
+      <div class="filter-popover-anchor">
+        <button class="filter-btn" id="filterBtn" onclick="toggleFilter()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+          </svg>
+        </button>
+        <!-- Desktop: popover dropdown -->
+        <div class="filter-popover" id="filterPopover">
+          <div class="popover-title">
+            <span>筛选</span>
+            <button class="close-pop" onclick="toggleFilter()">✕</button>
+          </div>
+          <div class="popover-field">
+            <label>运动类型</label>
+            <select id="filterType">
+              <option value="">全部类型</option>
+            </select>
+          </div>
+          <div class="popover-field">
+            <label>运动地点</label>
+            <select id="filterLocation">
+              <option value="">全部地点</option>
+            </select>
+          </div>
+          <div class="popover-actions">
+            <button class="btn" onclick="resetDesktopFilter()">重置</button>
+            <button class="btn btn-accent" onclick="applyDesktopFilter()">确认</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Filter Drawer -->
+  <div class="filter-drawer-backdrop" id="drawerBackdrop" onclick="toggleDrawer(false)"></div>
+  <div class="filter-drawer" id="filterDrawer">
+    <div class="drawer-handle"></div>
+    <div class="drawer-title">
+      <span>筛选条件</span>
+      <button class="close-btn" onclick="toggleDrawer(false)">✕</button>
+    </div>
+    <div class="drawer-field">
+      <label>运动类型</label>
+      <select id="filterTypeM">
+        <option value="">全部类型</option>
+      </select>
+    </div>
+    <div class="drawer-field">
+      <label>运动地点</label>
+      <select id="filterLocationM">
+        <option value="">全部地点</option>
+      </select>
+    </div>
+    <div class="drawer-actions">
+      <button class="btn" onclick="resetFiltersMobile()">重置</button>
+      <button class="btn btn-accent" onclick="applyFiltersMobile()">确认筛选</button>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="table-wrapper" id="tableWrapper">
+    <div class="empty-state">
+      <div class="icon">📭</div>
+      <p>加载中...</p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    Fitness Management · 每 10 秒自动同步数据
+  </div>
+</div>
+
+<script>
+const API_URL = '/api/records';
+const ICONS = {
+  '抗阻训练': '🏋️', '力量训练': '🏋️', '举铁': '🏋️',
+  '瑜伽': '🧘', '普拉提': '🧘',
+  '游泳': '🏊', '跑步': '🏃', '骑行': '🚴',
+  '跳绳': '🏅', '有氧运动': '💃', '拳击': '🥊',
+  '篮球': '🏀', '足球': '⚽', '羽毛球': '🏸', '网球': '🏸',
+  '徒步': '🥾', '登山': '🥾'
+};
+
+const TYPE_CLASS = {
+  '抗阻训练': 'resistance', '力量训练': 'resistance', '举铁': 'resistance',
+  '瑜伽': 'yoga', '普拉提': 'yoga',
+  '游泳': 'swimming',
+  '跑步': 'running'
+};
+
+let allRecords = [];
+let currentView = 'month';
+let filteredRecords = [];
+let currentPeriodDate = new Date();
+
+// Active filter state (shared between desktop popover & mobile drawer)
+let activeFilterType = '';
+let activeFilterLocation = '';
+
+function isMobile() {
+  return window.innerWidth <= 768;
+}
+
+// ====== Data ======
+
+async function fetchData() {
+  try {
+    const res = await fetch(API_URL + '?t=' + Date.now(), { cache: 'no-store' });
+    if (!res.ok) throw new Error('fetch failed');
+    allRecords = await res.json();
+    allRecords.sort((a, b) => (b.date + (b.time || '')).localeCompare(a.date + (a.time || '')));
+    updateFilterDropdowns();
+    applyPeriodFilter();
+    updateStats();
+    document.getElementById('lastUpdate').textContent = new Date().toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  } catch (e) {
+    console.error('Fetch error:', e);
+  }
+}
+
+// ====== Filter Dropdowns ======
+
+function updateFilterDropdowns() {
+  const types = [...new Set(allRecords.map(r => r.exercise_type).filter(Boolean))];
+  const locations = [...new Set(allRecords.map(r => r.location).filter(Boolean))];
+
+  // Desktop popover
+  const typeSelect = document.getElementById('filterType');
+  const locSelect = document.getElementById('filterLocation');
+  typeSelect.innerHTML = '<option value="">全部类型</option>' + types.map(t => `<option value="${t}">${t}</option>`).join('');
+  locSelect.innerHTML = '<option value="">全部地点</option>' + locations.map(l => `<option value="${l}">${l}</option>`).join('');
+  typeSelect.value = activeFilterType;
+  locSelect.value = activeFilterLocation;
+
+  // Mobile drawer
+  const typeSelectM = document.getElementById('filterTypeM');
+  const locSelectM = document.getElementById('filterLocationM');
+  typeSelectM.innerHTML = '<option value="">全部类型</option>' + types.map(t => `<option value="${t}">${t}</option>`).join('');
+  locSelectM.innerHTML = '<option value="">全部地点</option>' + locations.map(l => `<option value="${l}">${l}</option>`).join('');
+  typeSelectM.value = activeFilterType;
+  locSelectM.value = activeFilterLocation;
+}
+
+// ====== Period-based Filtering (unified for all screen sizes) ======
+
+function applyPeriodFilter() {
+  const { start, end } = getPeriodRange(currentPeriodDate, currentView);
+
+  filteredRecords = allRecords.filter(r => {
+    if (!r.date) return false;
+    if (r.date < start) return false;
+    if (r.date > end) return false;
+    if (activeFilterType && r.exercise_type !== activeFilterType) return false;
+    if (activeFilterLocation && r.location !== activeFilterLocation) return false;
+    return true;
+  });
+
+  updatePeriodLabel();
+  updateFilterBtnIndicator();
+  renderTable();
+}
+
+function getPeriodRange(refDate, view) {
+  const y = refDate.getFullYear();
+  const m = refDate.getMonth();
+
+  if (view === 'month') {
+    const start = `${y}-${String(m + 1).padStart(2, '0')}-01`;
+    const lastDay = new Date(y, m + 1, 0).getDate();
+    const end = `${y}-${String(m + 1).padStart(2, '0')}-${String(lastDay).padStart(2, '0')}`;
+    return { start, end };
+  } else {
+    const d = new Date(refDate);
+    const dayOfWeek = d.getDay() || 7;
+    const monday = new Date(d);
+    monday.setDate(d.getDate() - dayOfWeek + 1);
+    const sunday = new Date(monday);
+    sunday.setDate(monday.getDate() + 6);
+    const fmt = (dt) => `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`;
+    return { start: fmt(monday), end: fmt(sunday) };
+  }
+}
+
+function navigatePeriod(direction) {
+  if (currentView === 'month') {
+    currentPeriodDate.setMonth(currentPeriodDate.getMonth() + direction);
+  } else {
+    currentPeriodDate.setDate(currentPeriodDate.getDate() + direction * 7);
+  }
+  applyPeriodFilter();
+}
+
+function navigateToNow() {
+  currentPeriodDate = new Date();
+  applyPeriodFilter();
+}
+
+function updatePeriodLabel() {
+  const label = document.getElementById('periodLabel');
+  if (!label) return;
+
+  if (currentView === 'month') {
+    const y = currentPeriodDate.getFullYear();
+    const m = currentPeriodDate.getMonth() + 1;
+    const now = new Date();
+    if (y === now.getFullYear() && m === now.getMonth() + 1) {
+      label.textContent = `${m}月 (本月)`;
+    } else {
+      label.textContent = y === now.getFullYear() ? `${m}月` : `${y}年${m}月`;
+    }
+  } else {
+    const { start, end } = getPeriodRange(currentPeriodDate, 'week');
+    const s = new Date(start + 'T00:00:00');
+    const e = new Date(end + 'T00:00:00');
+    const now = new Date();
+    const { start: nowStart } = getPeriodRange(now, 'week');
+    const isThisWeek = start === nowStart;
+    const fmt = d => `${d.getMonth()+1}.${d.getDate()}`;
+    label.textContent = isThisWeek ? `${fmt(s)}-${fmt(e)} (本周)` : `${fmt(s)}-${fmt(e)}`;
+  }
+}
+
+function updateFilterBtnIndicator() {
+  const btn = document.getElementById('filterBtn');
+  const hasFilter = activeFilterType || activeFilterLocation;
+  btn.classList.toggle('has-filter', !!hasFilter);
+}
+
+// ====== Desktop Popover Filter ======
+
+function toggleFilter() {
+  if (isMobile()) {
+    toggleDrawer(true);
+    return;
+  }
+  const popover = document.getElementById('filterPopover');
+  popover.classList.toggle('show');
+}
+
+function applyDesktopFilter() {
+  activeFilterType = document.getElementById('filterType').value;
+  activeFilterLocation = document.getElementById('filterLocation').value;
+  // Sync to mobile drawer
+  document.getElementById('filterTypeM').value = activeFilterType;
+  document.getElementById('filterLocationM').value = activeFilterLocation;
+  document.getElementById('filterPopover').classList.remove('show');
+  applyPeriodFilter();
+}
+
+function resetDesktopFilter() {
+  document.getElementById('filterType').value = '';
+  document.getElementById('filterLocation').value = '';
+  activeFilterType = '';
+  activeFilterLocation = '';
+  document.getElementById('filterTypeM').value = '';
+  document.getElementById('filterLocationM').value = '';
+  document.getElementById('filterPopover').classList.remove('show');
+  applyPeriodFilter();
+}
+
+// Close popover on outside click
+document.addEventListener('click', (e) => {
+  const popover = document.getElementById('filterPopover');
+  const anchor = e.target.closest('.filter-popover-anchor');
+  if (!anchor && popover.classList.contains('show')) {
+    popover.classList.remove('show');
+  }
+});
+
+// ====== Mobile Drawer Filter ======
+
+function toggleDrawer(show) {
+  const backdrop = document.getElementById('drawerBackdrop');
+  const drawer = document.getElementById('filterDrawer');
+  if (show) {
+    backdrop.classList.add('show');
+    requestAnimationFrame(() => drawer.classList.add('show'));
+  } else {
+    drawer.classList.remove('show');
+    setTimeout(() => backdrop.classList.remove('show'), 300);
+  }
+}
+
+function applyFiltersMobile() {
+  activeFilterType = document.getElementById('filterTypeM').value;
+  activeFilterLocation = document.getElementById('filterLocationM').value;
+  // Sync to desktop popover
+  document.getElementById('filterType').value = activeFilterType;
+  document.getElementById('filterLocation').value = activeFilterLocation;
+  toggleDrawer(false);
+  applyPeriodFilter();
+}
+
+function resetFiltersMobile() {
+  document.getElementById('filterTypeM').value = '';
+  document.getElementById('filterLocationM').value = '';
+  activeFilterType = '';
+  activeFilterLocation = '';
+  document.getElementById('filterType').value = '';
+  document.getElementById('filterLocation').value = '';
+  toggleDrawer(false);
+  applyPeriodFilter();
+}
+
+// ====== Stats ======
+
+function updateStats() {
+  const now = new Date();
+  const monthStr = now.toISOString().slice(0, 7);
+  const monthRecords = allRecords.filter(r => r.date && r.date.startsWith(monthStr));
+  const monthDays = new Set(monthRecords.map(r => r.date)).size;
+  const types = new Set(allRecords.map(r => r.exercise_type).filter(Boolean)).size;
+
+  document.getElementById('statMonthCount').innerHTML = `${monthRecords.length} <span class="unit">次</span>`;
+  document.getElementById('statMonthDays').innerHTML = `${monthDays} <span class="unit">天</span>`;
+  document.getElementById('statTotal').innerHTML = `${allRecords.length} <span class="unit">条</span>`;
+  document.getElementById('statTypes').innerHTML = `${types} <span class="unit">种</span>`;
+}
+
+// ====== View Toggle ======
+
+function setView(view) {
+  currentView = view;
+  document.getElementById('viewMonth').classList.toggle('active', view === 'month');
+  document.getElementById('viewWeek').classList.toggle('active', view === 'week');
+  applyPeriodFilter();
+}
+
+// ====== Table Rendering ======
+
+function groupRecords(records) {
+  const groups = {};
+  records.forEach(r => {
+    if (!r.date) return;
+    let key;
+    if (currentView === 'month') {
+      key = r.date.slice(0, 7);
+    } else {
+      const d = new Date(r.date + 'T00:00:00');
+      const dayOfWeek = d.getDay() || 7;
+      const monday = new Date(d);
+      monday.setDate(d.getDate() - dayOfWeek + 1);
+      key = 'W|' + monday.toISOString().slice(0, 10);
+    }
+    if (!groups[key]) groups[key] = [];
+    groups[key].push(r);
+  });
+  return Object.entries(groups).sort((a, b) => b[0].localeCompare(a[0]));
+}
+
+function formatGroupLabel(key) {
+  if (currentView === 'month') {
+    const [y, m] = key.split('-');
+    return `${y}年${parseInt(m)}月`;
+  } else {
+    const dateStr = key.replace('W|', '');
+    const monday = new Date(dateStr + 'T00:00:00');
+    const sunday = new Date(monday);
+    sunday.setDate(monday.getDate() + 6);
+    const fmt = d => `${d.getMonth()+1}.${d.getDate()}`;
+    return `${fmt(monday)} — ${fmt(sunday)}`;
+  }
+}
+
+const WEEKDAYS = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+
+function formatDate(dateStr) {
+  const d = new Date(dateStr + 'T00:00:00');
+  const m = d.getMonth() + 1;
+  const day = d.getDate();
+  const wd = WEEKDAYS[d.getDay()];
+  return `<span class="day">${m}.${day < 10 ? '0' + day : day}</span> <span class="weekday">${wd}</span>`;
+}
+
+function getTypeTag(type) {
+  const icon = ICONS[type] || '🏅';
+  const cls = TYPE_CLASS[type] || 'other';
+  return `<span class="type-tag ${cls}">${icon} ${type}</span>`;
+}
+
+function formatDetail(r) {
+  const parts = [];
+  const type = r.exercise_type || '';
+
+  if (r.exercises && r.exercises.length > 0) {
+    parts.push(r.exercises.map(e =>
+      `<span class="exercise-item">${e.name} ${e.sets}×${e.reps}</span>`
+    ).join(''));
+  }
+
+  if (r.duration && r.distance) {
+    if (type === '游泳') {
+      parts.push(`${r.duration}min·${r.distance}m`);
+    } else if (type === '跑步') {
+      parts.push(`${r.duration}min·${r.distance}km`);
+    } else {
+      parts.push(`${r.duration}min`);
+      parts.push(`${r.distance}`);
+    }
+  } else if (r.duration) {
+    parts.push(`${r.duration}min`);
+  } else if (r.distance) {
+    const unit = type === '游泳' ? 'm' : 'km';
+    parts.push(`${r.distance}${unit}`);
+  }
+
+  if (type === '瑜伽' && !r.exercises && !r.duration && !r.distance) {
+    parts.push('1节课');
+  }
+
+  return parts.join(' ') || '—';
+}
+
+function renderTable() {
+  const wrapper = document.getElementById('tableWrapper');
+
+  if (filteredRecords.length === 0) {
+    wrapper.innerHTML = `
+      <div class="empty-state">
+        <div class="icon">📭</div>
+        <p>没有符合条件的记录</p>
+      </div>`;
+    return;
+  }
+
+  const groups = groupRecords(filteredRecords);
+  let html = '';
+
+  groups.forEach(([key, records], gi) => {
+    const label = formatGroupLabel(key);
+    html += `
+      <div class="group-header">
+        <span>${label}</span>
+        <span class="count">${records.length} 条</span>
+      </div>
+      <div class="group-body">
+        <table>
+          <thead>
+            <tr>
+              <th>日期</th>
+              <th>类型</th>
+              <th>详情</th>
+              <th>备注</th>
+              <th class="col-time">时间</th>
+            </tr>
+          </thead>
+          <tbody>`;
+
+    records.forEach(r => {
+      const loc = r.location ? `<span class="location-tag">${r.location}</span>` : '';
+      html += `
+            <tr>
+              <td class="date-cell">${formatDate(r.date)}</td>
+              <td>${getTypeTag(r.exercise_type || '其他')}${loc}</td>
+              <td class="detail-cell">${formatDetail(r)}</td>
+              <td class="notes-cell">${r.notes || ''}</td>
+              <td class="time-cell col-time">${r.time || '--'}</td>
+            </tr>`;
+    });
+
+    html += `
+          </tbody>
+        </table>
+      </div>`;
+  });
+
+  wrapper.innerHTML = html;
+}
+
+// ====== Init ======
+
+fetchData();
+setInterval(fetchData, 10000);
+</script>
+
+</body>
+</html>
