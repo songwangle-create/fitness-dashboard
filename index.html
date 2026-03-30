@@ -571,7 +571,7 @@
   }
 
   .day-card thead th:last-child {
-    text-align: left;
+    text-align: right;
   }
 
   .day-card .col-action {
@@ -599,7 +599,7 @@
   }
 
   .day-card .td-time {
-    text-align: left;
+    text-align: right;
     color: var(--text-tertiary);
     font-size: 12px;
     font-variant-numeric: tabular-nums;
@@ -1228,7 +1228,7 @@ function renderCards() {
             <tr>
               <th class="col-action">动作</th>
               <th>详情</th>
-              <th class="col-time">时间</th>
+              <th class="col-time" style="text-align:right">时间</th>
             </tr>
           </thead>
           <tbody>`;
