@@ -554,6 +554,7 @@
   .day-card table {
     width: 100%;
     border-collapse: collapse;
+    table-layout: fixed;
   }
 
   .day-card thead th {
@@ -571,6 +572,14 @@
 
   .day-card thead th:last-child {
     text-align: right;
+  }
+
+  .day-card .col-action {
+    width: 120px;
+  }
+
+  .day-card .col-time {
+    width: 60px;
   }
 
   .day-card tbody td {
@@ -1217,7 +1226,7 @@ function renderCards() {
         <table>
           <thead>
             <tr>
-              <th>动作</th>
+              <th class="col-action">动作</th>
               <th>详情</th>
               <th class="col-time" style="text-align:right">时间</th>
             </tr>
