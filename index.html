@@ -143,7 +143,6 @@
     box-shadow: var(--shadow);
   }
 
-  /* Left: period navigator */
   .period-nav {
     display: flex;
     align-items: center;
@@ -200,7 +199,6 @@
     color: var(--accent);
   }
 
-  /* Right: view toggle + filter btn */
   .filter-bar-right {
     display: flex;
     align-items: center;
@@ -208,7 +206,6 @@
     flex-shrink: 0;
   }
 
-  /* View Toggle */
   .view-toggle {
     display: inline-flex;
     background: var(--bg);
@@ -236,7 +233,6 @@
     box-shadow: 0 1px 2px rgba(0,0,0,0.06);
   }
 
-  /* Filter (funnel) button */
   .filter-btn {
     width: 32px;
     height: 32px;
@@ -518,103 +514,69 @@
     text-align: center;
   }
 
-  /* ====== Table ====== */
-  .table-wrapper {
+  /* ====== Day Cards ====== */
+  .cards-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .day-card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    overflow: hidden;
     box-shadow: var(--shadow);
+    overflow: hidden;
   }
 
-  .group-header {
-    padding: 12px 20px;
-    background: var(--bg);
-    border-bottom: 1px solid var(--border);
-    font-size: 14px;
+  .day-card-header {
+    padding: 14px 20px 0;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+
+  .day-card-date {
+    font-size: 15px;
     font-weight: 600;
     color: var(--text-primary);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    user-select: none;
   }
 
-  .group-header:not(:first-child) {
-    border-top: 1px solid var(--border);
-  }
-
-  .group-header .count {
+  .day-card-weekday {
     font-size: 12px;
     font-weight: 400;
     color: var(--text-tertiary);
-    background: var(--surface);
-    padding: 2px 8px;
-    border-radius: 10px;
-    border: 1px solid var(--border);
   }
 
-  table {
-    width: 100%;
-    border-collapse: collapse;
+  .day-card-body {
+    padding: 12px 20px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
   }
 
-  thead th {
-    text-align: left;
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--text-tertiary);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    padding: 10px 20px;
-    border-bottom: 1px solid var(--border);
-    background: var(--surface);
-    white-space: nowrap;
+  .record-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
 
-  tbody td {
-    padding: 12px 20px;
-    font-size: 13px;
-    color: var(--text-primary);
-    border-bottom: 1px solid #f0eeea;
-    vertical-align: middle;
+  .record-item + .record-item {
+    padding-top: 12px;
+    border-top: 1px solid #f0eeea;
   }
 
-  tbody tr:last-child td {
-    border-bottom: none;
+  .record-top-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
   }
 
-  tbody tr:hover {
-    background: #faf9f6;
-  }
-
-  .date-cell {
-    white-space: nowrap;
-    color: var(--text-secondary);
-  }
-
-  .date-cell .day {
-    font-weight: 600;
-    color: var(--text-primary);
-  }
-
-  .date-cell .weekday {
-    font-size: 11px;
-    color: var(--text-tertiary);
-  }
-
-  .time-cell {
-    color: var(--text-tertiary);
-    font-size: 12px;
-    font-variant-numeric: tabular-nums;
-    white-space: nowrap;
-  }
-
-  /* Exercise Type Tags */
+  /* Exercise Type Tags — no icon */
   .type-tag {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
     padding: 3px 10px;
     border-radius: 20px;
     font-size: 12px;
@@ -635,30 +597,35 @@
     background: var(--tag-gray);
     padding: 1px 7px;
     border-radius: 4px;
-    margin-left: 4px;
   }
 
-  .detail-cell {
-    font-size: 13px;
-    color: var(--text-secondary);
-    line-height: 1.7;
+  .time-tag {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    font-variant-numeric: tabular-nums;
   }
 
-  .detail-cell .exercise-item {
+  /* Detail labels row */
+  .detail-labels {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .detail-label {
     display: inline-block;
     background: var(--bg);
-    padding: 1px 8px;
+    padding: 2px 10px;
     border-radius: 4px;
-    margin: 1px 2px;
     font-size: 12px;
+    color: var(--text-secondary);
     white-space: nowrap;
   }
 
-  .notes-cell {
+  .record-notes {
     font-size: 12px;
     color: var(--text-tertiary);
-    font-style: italic;
-    max-width: 200px;
+    line-height: 1.5;
   }
 
   /* Empty state */
@@ -666,6 +633,10 @@
     text-align: center;
     padding: 60px 20px;
     color: var(--text-tertiary);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
   }
 
   .empty-state .icon {
@@ -693,7 +664,6 @@
     .header h1 { font-size: 22px; }
     .header p { font-size: 12px; }
 
-    /* Stats: only 2 columns */
     .stats-bar {
       grid-template-columns: repeat(2, 1fr);
       gap: 8px;
@@ -703,7 +673,6 @@
     .stat-card { padding: 12px 14px; }
     .stat-card .value { font-size: 20px; }
 
-    /* Filter bar compact */
     .filter-bar { padding: 8px 12px; gap: 8px; }
     .period-label { font-size: 14px; min-width: 70px; padding: 4px 4px; }
     .nav-btn { width: 30px; height: 30px; font-size: 14px; }
@@ -711,29 +680,16 @@
     .filter-btn { width: 30px; height: 30px; }
     .filter-btn svg { width: 14px; height: 14px; }
 
-    /* Table density */
-    .group-header { padding: 10px 14px; font-size: 13px; }
-    thead th { padding: 8px 10px; font-size: 10px; }
-    tbody td { padding: 10px 10px; font-size: 12px; }
+    .cards-list { gap: 10px; }
 
-    /* Hide time column */
-    .col-time { display: none; }
+    .day-card-header { padding: 12px 14px 0; }
+    .day-card-date { font-size: 14px; }
+    .day-card-weekday { font-size: 11px; }
+    .day-card-body { padding: 10px 14px 14px; gap: 10px; }
 
-    .detail-cell .exercise-item {
-      font-size: 11px;
-      padding: 1px 6px;
-      margin: 1px 1px;
-    }
+    .type-tag { padding: 2px 8px; font-size: 11px; }
 
-    .type-tag {
-      padding: 2px 8px;
-      font-size: 11px;
-    }
-
-    .notes-cell {
-      max-width: 100px;
-      font-size: 11px;
-    }
+    .detail-label { font-size: 11px; padding: 2px 8px; }
 
     .footer { padding: 16px; font-size: 11px; }
   }
@@ -743,7 +699,6 @@
     .container { padding: 24px 16px; }
     .stats-bar { grid-template-columns: repeat(2, 1fr); }
     .stat-card.hide-mobile { display: none; }
-    .col-time { display: none; }
   }
 </style>
 </head>
@@ -778,14 +733,12 @@
 
   <!-- Unified Filter Bar -->
   <div class="filter-bar">
-    <!-- Left: period nav -->
     <div class="period-nav">
       <button class="nav-btn" onclick="navigatePeriod(-1)">‹</button>
       <span class="period-label" id="periodLabel" onclick="navigateToNow()">--</span>
       <button class="nav-btn" onclick="navigatePeriod(1)">›</button>
     </div>
 
-    <!-- Right: view toggle + filter button -->
     <div class="filter-bar-right">
       <div class="view-toggle">
         <button id="viewMonth" class="active" onclick="setView('month')">按月</button>
@@ -797,7 +750,6 @@
             <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
           </svg>
         </button>
-        <!-- Desktop: popover dropdown -->
         <div class="filter-popover" id="filterPopover">
           <div class="popover-title">
             <span>筛选</span>
@@ -850,8 +802,8 @@
     </div>
   </div>
 
-  <!-- Table -->
-  <div class="table-wrapper" id="tableWrapper">
+  <!-- Cards Area -->
+  <div id="cardsArea">
     <div class="empty-state">
       <div class="icon">📭</div>
       <p>加载中...</p>
@@ -865,16 +817,7 @@
 </div>
 
 <script>
-// GitHub Pages: 直接读取仓库中的 data.json
 const API_URL = './data.json';
-const ICONS = {
-  '抗阻训练': '🏋️', '力量训练': '🏋️', '举铁': '🏋️',
-  '瑜伽': '🧘', '普拉提': '🧘',
-  '游泳': '🏊', '跑步': '🏃', '骑行': '🚴',
-  '跳绳': '🏅', '有氧运动': '💃', '拳击': '🥊',
-  '篮球': '🏀', '足球': '⚽', '羽毛球': '🏸', '网球': '🏸',
-  '徒步': '🥾', '登山': '🥾'
-};
 
 const TYPE_CLASS = {
   '抗阻训练': 'resistance', '力量训练': 'resistance', '举铁': 'resistance',
@@ -888,7 +831,6 @@ let currentView = 'month';
 let filteredRecords = [];
 let currentPeriodDate = new Date();
 
-// Active filter state (shared between desktop popover & mobile drawer)
 let activeFilterType = '';
 let activeFilterLocation = '';
 
@@ -919,7 +861,6 @@ function updateFilterDropdowns() {
   const types = [...new Set(allRecords.map(r => r.exercise_type).filter(Boolean))];
   const locations = [...new Set(allRecords.map(r => r.location).filter(Boolean))];
 
-  // Desktop popover
   const typeSelect = document.getElementById('filterType');
   const locSelect = document.getElementById('filterLocation');
   typeSelect.innerHTML = '<option value="">全部类型</option>' + types.map(t => `<option value="${t}">${t}</option>`).join('');
@@ -927,7 +868,6 @@ function updateFilterDropdowns() {
   typeSelect.value = activeFilterType;
   locSelect.value = activeFilterLocation;
 
-  // Mobile drawer
   const typeSelectM = document.getElementById('filterTypeM');
   const locSelectM = document.getElementById('filterLocationM');
   typeSelectM.innerHTML = '<option value="">全部类型</option>' + types.map(t => `<option value="${t}">${t}</option>`).join('');
@@ -936,7 +876,7 @@ function updateFilterDropdowns() {
   locSelectM.value = activeFilterLocation;
 }
 
-// ====== Period-based Filtering (unified for all screen sizes) ======
+// ====== Period-based Filtering ======
 
 function applyPeriodFilter() {
   const { start, end } = getPeriodRange(currentPeriodDate, currentView);
@@ -952,7 +892,7 @@ function applyPeriodFilter() {
 
   updatePeriodLabel();
   updateFilterBtnIndicator();
-  renderTable();
+  renderCards();
 }
 
 function getPeriodRange(refDate, view) {
@@ -1035,7 +975,6 @@ function toggleFilter() {
 function applyDesktopFilter() {
   activeFilterType = document.getElementById('filterType').value;
   activeFilterLocation = document.getElementById('filterLocation').value;
-  // Sync to mobile drawer
   document.getElementById('filterTypeM').value = activeFilterType;
   document.getElementById('filterLocationM').value = activeFilterLocation;
   document.getElementById('filterPopover').classList.remove('show');
@@ -1053,7 +992,6 @@ function resetDesktopFilter() {
   applyPeriodFilter();
 }
 
-// Close popover on outside click
 document.addEventListener('click', (e) => {
   const popover = document.getElementById('filterPopover');
   const anchor = e.target.closest('.filter-popover-anchor');
@@ -1079,7 +1017,6 @@ function toggleDrawer(show) {
 function applyFiltersMobile() {
   activeFilterType = document.getElementById('filterTypeM').value;
   activeFilterLocation = document.getElementById('filterLocationM').value;
-  // Sync to desktop popover
   document.getElementById('filterType').value = activeFilterType;
   document.getElementById('filterLocation').value = activeFilterLocation;
   toggleDrawer(false);
@@ -1121,96 +1058,77 @@ function setView(view) {
   applyPeriodFilter();
 }
 
-// ====== Table Rendering ======
-
-function groupRecords(records) {
-  const groups = {};
-  records.forEach(r => {
-    if (!r.date) return;
-    let key;
-    if (currentView === 'month') {
-      key = r.date.slice(0, 7);
-    } else {
-      const d = new Date(r.date + 'T00:00:00');
-      const dayOfWeek = d.getDay() || 7;
-      const monday = new Date(d);
-      monday.setDate(d.getDate() - dayOfWeek + 1);
-      key = 'W|' + monday.toISOString().slice(0, 10);
-    }
-    if (!groups[key]) groups[key] = [];
-    groups[key].push(r);
-  });
-  return Object.entries(groups).sort((a, b) => b[0].localeCompare(a[0]));
-}
-
-function formatGroupLabel(key) {
-  if (currentView === 'month') {
-    const [y, m] = key.split('-');
-    return `${y}年${parseInt(m)}月`;
-  } else {
-    const dateStr = key.replace('W|', '');
-    const monday = new Date(dateStr + 'T00:00:00');
-    const sunday = new Date(monday);
-    sunday.setDate(monday.getDate() + 6);
-    const fmt = d => `${d.getMonth()+1}.${d.getDate()}`;
-    return `${fmt(monday)} — ${fmt(sunday)}`;
-  }
-}
+// ====== Card Rendering ======
 
 const WEEKDAYS = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
 
-function formatDate(dateStr) {
-  const d = new Date(dateStr + 'T00:00:00');
-  const m = d.getMonth() + 1;
-  const day = d.getDate();
-  const wd = WEEKDAYS[d.getDay()];
-  return `<span class="day">${m}.${day < 10 ? '0' + day : day}</span> <span class="weekday">${wd}</span>`;
-}
-
 function getTypeTag(type) {
-  const icon = ICONS[type] || '🏅';
   const cls = TYPE_CLASS[type] || 'other';
-  return `<span class="type-tag ${cls}">${icon} ${type}</span>`;
+  return `<span class="type-tag ${cls}">${type}</span>`;
 }
 
-function formatDetail(r) {
-  const parts = [];
+function formatDetailLabels(r) {
+  const labels = [];
   const type = r.exercise_type || '';
 
+  // 抗阻训练的 exercises
   if (r.exercises && r.exercises.length > 0) {
-    parts.push(r.exercises.map(e =>
-      `<span class="exercise-item">${e.name} ${e.sets}×${e.reps}</span>`
-    ).join(''));
+    r.exercises.forEach(e => {
+      let text = e.name || '';
+      const parts = [];
+      if (e.weight) parts.push(`${e.weight}Kg`);
+      if (e.duration) parts.push(`${e.duration}`);
+      if (e.distance) parts.push(`${e.distance}`);
+      if (e.reps && e.sets) {
+        const spec = parts.length > 0 ? `(${parts.join(' ')})` : '';
+        text += ` ${e.reps}${spec}×${e.sets}组`;
+      } else if (e.sets && e.reps) {
+        text += ` ${e.sets}×${e.reps}`;
+      }
+      labels.push(text.trim());
+    });
   }
 
+  // 时长和距离
   if (r.duration && r.distance) {
     if (type === '游泳') {
-      parts.push(`${r.duration}min·${r.distance}m`);
+      labels.push(`${r.duration}min · ${r.distance}m`);
     } else if (type === '跑步') {
-      parts.push(`${r.duration}min·${r.distance}km`);
+      labels.push(`${r.duration}min · ${r.distance}km`);
     } else {
-      parts.push(`${r.duration}min`);
-      parts.push(`${r.distance}`);
+      labels.push(`${r.duration}min`);
+      labels.push(`${r.distance}`);
     }
   } else if (r.duration) {
-    parts.push(`${r.duration}min`);
+    labels.push(`${r.duration}min`);
   } else if (r.distance) {
     const unit = type === '游泳' ? 'm' : 'km';
-    parts.push(`${r.distance}${unit}`);
+    labels.push(`${r.distance}${unit}`);
   }
 
-  if (type === '瑜伽' && !r.exercises && !r.duration && !r.distance) {
-    parts.push('1节课');
+  if (type === '瑜伽' && labels.length === 0) {
+    labels.push('1节课');
   }
 
-  return parts.join(' ') || '—';
+  return labels;
 }
 
-function renderTable() {
-  const wrapper = document.getElementById('tableWrapper');
+function groupByDay(records) {
+  const days = {};
+  records.forEach(r => {
+    if (!r.date) return;
+    if (!days[r.date]) days[r.date] = [];
+    days[r.date].push(r);
+  });
+  // Sort days descending
+  return Object.entries(days).sort((a, b) => b[0].localeCompare(a[0]));
+}
+
+function renderCards() {
+  const area = document.getElementById('cardsArea');
 
   if (filteredRecords.length === 0) {
-    wrapper.innerHTML = `
+    area.innerHTML = `
       <div class="empty-state">
         <div class="icon">📭</div>
         <p>没有符合条件的记录</p>
@@ -1218,54 +1136,60 @@ function renderTable() {
     return;
   }
 
-  const groups = groupRecords(filteredRecords);
-  let html = '';
+  const days = groupByDay(filteredRecords);
+  let html = '<div class="cards-list">';
 
-  groups.forEach(([key, records], gi) => {
-    const label = formatGroupLabel(key);
+  days.forEach(([dateStr, records]) => {
+    const d = new Date(dateStr + 'T00:00:00');
+    const m = d.getMonth() + 1;
+    const day = d.getDate();
+    const wd = WEEKDAYS[d.getDay()];
+
     html += `
-      <div class="group-header">
-        <span>${label}</span>
-        <span class="count">${records.length} 条</span>
-      </div>
-      <div class="group-body">
-        <table>
-          <thead>
-            <tr>
-              <th>日期</th>
-              <th>类型</th>
-              <th>详情</th>
-              <th>备注</th>
-              <th class="col-time">时间</th>
-            </tr>
-          </thead>
-          <tbody>`;
+      <div class="day-card">
+        <div class="day-card-header">
+          <span class="day-card-date">${m}月${day}日</span>
+          <span class="day-card-weekday">${wd}</span>
+        </div>
+        <div class="day-card-body">`;
 
     records.forEach(r => {
       const loc = r.location ? `<span class="location-tag">${r.location}</span>` : '';
+      const time = r.time ? `<span class="time-tag">${r.time}</span>` : '';
+
+      // Detail labels
+      const detailItems = formatDetailLabels(r);
+      const detailHtml = detailItems.length > 0
+        ? `<div class="detail-labels">${detailItems.map(t => `<span class="detail-label">${t}</span>`).join('')}</div>`
+        : '';
+
+      // Notes (merged with detail, excluding auto-notes)
+      const notesHtml = r.notes ? `<div class="record-notes">${r.notes}</div>` : '';
+
       html += `
-            <tr>
-              <td class="date-cell">${formatDate(r.date)}</td>
-              <td>${getTypeTag(r.exercise_type || '其他')}${loc}</td>
-              <td class="detail-cell">${formatDetail(r)}</td>
-              <td class="notes-cell">${r.notes || ''}</td>
-              <td class="time-cell col-time">${r.time || '--'}</td>
-            </tr>`;
+          <div class="record-item">
+            <div class="record-top-row">
+              ${getTypeTag(r.exercise_type || '其他')}
+              ${loc}
+              ${time}
+            </div>
+            ${detailHtml}
+            ${notesHtml}
+          </div>`;
     });
 
     html += `
-          </tbody>
-        </table>
+        </div>
       </div>`;
   });
 
-  wrapper.innerHTML = html;
+  html += '</div>';
+  area.innerHTML = html;
 }
 
 // ====== Init ======
 
 fetchData();
-// GitHub Pages 版每 5 分钟检查更新
 setInterval(fetchData, 300000);
 </script>
 
