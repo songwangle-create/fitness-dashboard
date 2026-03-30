@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Fitness Management</title>
 <!-- Icons -->
 <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png">
@@ -862,11 +862,11 @@
   .cal-days {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(6, 40px);
     gap: 4px;
   }
 
   .cal-day {
-    aspect-ratio: 1;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -874,6 +874,9 @@
     color: var(--text-secondary);
     border-radius: 50%;
     position: relative;
+    width: 40px;
+    height: 40px;
+    margin: 0 auto;
   }
 
   .cal-day.empty {
@@ -943,6 +946,7 @@
       max-width: 100%;
       border-radius: 16px 16px 0 0;
       padding: 20px 16px;
+      padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
       max-height: 85vh;
       animation: calSlideUp 0.3s cubic-bezier(0.32, 0.72, 0, 1);
     }
@@ -953,7 +957,17 @@
     }
 
     .cal-month-label { font-size: 16px; }
-    .cal-day { font-size: 13px; }
+
+    .cal-days {
+      grid-template-rows: repeat(6, 36px);
+    }
+
+    .cal-day {
+      font-size: 13px;
+      width: 36px;
+      height: 36px;
+    }
+
     .cal-summary-val { font-size: 20px; }
   }
 </style>
@@ -1632,6 +1646,12 @@ function renderCalendar() {
     if (activeDays.has(d)) classes.push('active');
     if (isCurrentMonth && d === todayDate) classes.push('today');
     html += `<span class="${classes.join(' ')}">${d}</span>`;
+  }
+
+  // 尾部空白填满6行（42格）
+  const totalCells = offset + daysInMonth;
+  for (let i = totalCells; i < 42; i++) {
+    html += '<span class="cal-day empty"></span>';
   }
 
   document.getElementById('calDays').innerHTML = html;
