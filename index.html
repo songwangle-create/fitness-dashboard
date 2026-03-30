@@ -727,6 +727,235 @@
     .stats-bar { grid-template-columns: repeat(2, 1fr); }
     .stat-card.hide-mobile { display: none; }
   }
+
+  /* ====== Stats Bar clickable ====== */
+  .stat-card.clickable {
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .stat-card.clickable:hover {
+    border-color: var(--accent);
+    box-shadow: var(--shadow-lg);
+  }
+  .stat-card.clickable:active {
+    transform: scale(0.98);
+  }
+
+  /* ====== Calendar Modal (PC) ====== */
+  .cal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+    z-index: 200;
+    justify-content: center;
+    align-items: center;
+  }
+  .cal-overlay.show {
+    display: flex;
+  }
+
+  .cal-modal {
+    background: var(--surface);
+    border-radius: 16px;
+    padding: 28px 32px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    width: 380px;
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: calFadeIn 0.2s ease;
+  }
+
+  @keyframes calFadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  .cal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  .cal-header-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .cal-nav-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-secondary);
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+    line-height: 1;
+  }
+
+  .cal-nav-btn:hover {
+    background: var(--bg);
+    color: var(--text-primary);
+  }
+
+  .cal-month-label {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text-primary);
+    min-width: 100px;
+    text-align: center;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: var(--radius-sm);
+    transition: background 0.15s;
+  }
+
+  .cal-month-label:hover {
+    background: var(--bg);
+  }
+
+  .cal-close-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: var(--bg);
+    color: var(--text-tertiary);
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+  }
+
+  .cal-close-btn:hover {
+    color: var(--text-primary);
+    background: var(--border);
+  }
+
+  .cal-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0;
+    margin-bottom: 4px;
+  }
+
+  .cal-weekday {
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 6px 0;
+  }
+
+  .cal-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+  }
+
+  .cal-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: var(--text-secondary);
+    border-radius: 50%;
+    position: relative;
+  }
+
+  .cal-day.empty {
+    visibility: hidden;
+  }
+
+  .cal-day.today {
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .cal-day.today::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--text-tertiary);
+  }
+
+  .cal-day.active {
+    background: var(--accent);
+    color: white;
+    font-weight: 600;
+  }
+
+  .cal-day.active.today::after {
+    background: rgba(255,255,255,0.7);
+  }
+
+  .cal-summary {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+  }
+
+  .cal-summary-item {
+    text-align: center;
+  }
+
+  .cal-summary-val {
+    font-size: 22px;
+    font-weight: 650;
+    color: var(--text-primary);
+  }
+
+  .cal-summary-label {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    margin-top: 2px;
+  }
+
+  /* ====== Mobile: full-screen calendar ====== */
+  @media (max-width: 640px) {
+    .cal-overlay {
+      align-items: flex-end;
+    }
+
+    .cal-modal {
+      width: 100%;
+      max-width: 100%;
+      border-radius: 16px 16px 0 0;
+      padding: 20px 16px;
+      max-height: 85vh;
+      animation: calSlideUp 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+    }
+
+    @keyframes calSlideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    .cal-month-label { font-size: 16px; }
+    .cal-day { font-size: 13px; }
+    .cal-summary-val { font-size: 20px; }
+  }
 </style>
 </head>
 <body>
@@ -740,17 +969,51 @@
 
   <!-- Stats Bar（统计栏） -->
   <div class="stats-bar">
-    <div class="stat-card">
+    <div class="stat-card clickable" onclick="openCalendar()">
       <div class="label">本月运动</div>
       <div class="value" id="statMonthCount">0 <span class="unit">次</span></div>
     </div>
-    <div class="stat-card">
+    <div class="stat-card clickable" onclick="openCalendar()">
       <div class="label">本月天数</div>
       <div class="value" id="statMonthDays">0 <span class="unit">天</span></div>
     </div>
     <div class="stat-card hide-mobile">
       <div class="label">总运动</div>
       <div class="value" id="statTotal">0 <span class="unit">次</span></div>
+    </div>
+  </div>
+
+  <!-- Calendar Modal -->
+  <div class="cal-overlay" id="calOverlay" onclick="closeCalendarOutside(event)">
+    <div class="cal-modal" id="calModal">
+      <div class="cal-header">
+        <div class="cal-header-title">
+          <button class="cal-nav-btn" onclick="navigateCalendar(-1)">‹</button>
+          <span class="cal-month-label" id="calMonthLabel" onclick="calGoToNow()">--</span>
+          <button class="cal-nav-btn" onclick="navigateCalendar(1)">›</button>
+        </div>
+        <button class="cal-close-btn" onclick="closeCalendar()">✕</button>
+      </div>
+      <div class="cal-weekdays">
+        <span class="cal-weekday">一</span>
+        <span class="cal-weekday">二</span>
+        <span class="cal-weekday">三</span>
+        <span class="cal-weekday">四</span>
+        <span class="cal-weekday">五</span>
+        <span class="cal-weekday">六</span>
+        <span class="cal-weekday">日</span>
+      </div>
+      <div class="cal-days" id="calDays"></div>
+      <div class="cal-summary">
+        <div class="cal-summary-item">
+          <div class="cal-summary-val" id="calSumSessions">0</div>
+          <div class="cal-summary-label">运动次数</div>
+        </div>
+        <div class="cal-summary-item">
+          <div class="cal-summary-val" id="calSumDays">0</div>
+          <div class="cal-summary-label">运动天数</div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1301,6 +1564,82 @@ function renderCards() {
 
   html += '</div>';
   area.innerHTML = html;
+}
+
+// ====== Calendar ======
+
+let calDate = new Date(); // 日历当前显示的月份
+
+function openCalendar() {
+  calDate = new Date(); // 打开时默认当前月
+  renderCalendar();
+  document.getElementById('calOverlay').classList.add('show');
+}
+
+function closeCalendar() {
+  document.getElementById('calOverlay').classList.remove('show');
+}
+
+function closeCalendarOutside(e) {
+  if (e.target === document.getElementById('calOverlay')) {
+    closeCalendar();
+  }
+}
+
+function navigateCalendar(dir) {
+  calDate.setDate(1);
+  calDate.setMonth(calDate.getMonth() + dir);
+  renderCalendar();
+}
+
+function calGoToNow() {
+  calDate = new Date();
+  renderCalendar();
+}
+
+function renderCalendar() {
+  const y = calDate.getFullYear();
+  const m = calDate.getMonth();
+  const now = new Date();
+  const isCurrentMonth = y === now.getFullYear() && m === now.getMonth();
+
+  // 月份标签
+  const label = document.getElementById('calMonthLabel');
+  const mStr = `${y}年${m + 1}月`;
+  label.textContent = isCurrentMonth ? `${m + 1}月（本月）` : (y === now.getFullYear() ? `${m + 1}月` : mStr);
+
+  // 获取本月有运动的日期集合
+  const monthPrefix = `${y}-${String(m + 1).padStart(2, '0')}`;
+  const monthRecords = allRecords.filter(r => r.date && r.date.startsWith(monthPrefix));
+  const activeDays = new Set(monthRecords.map(r => parseInt(r.date.split('-')[2])));
+
+  // 本月第一天是星期几（周一=0 ... 周日=6）
+  const firstDay = new Date(y, m, 1).getDay();
+  const offset = (firstDay === 0 ? 6 : firstDay - 1); // 转为周一起始
+  const daysInMonth = new Date(y, m + 1, 0).getDate();
+  const todayDate = now.getDate();
+
+  let html = '';
+
+  // 空白填充
+  for (let i = 0; i < offset; i++) {
+    html += '<span class="cal-day empty"></span>';
+  }
+
+  // 日期
+  for (let d = 1; d <= daysInMonth; d++) {
+    const classes = ['cal-day'];
+    if (activeDays.has(d)) classes.push('active');
+    if (isCurrentMonth && d === todayDate) classes.push('today');
+    html += `<span class="${classes.join(' ')}">${d}</span>`;
+  }
+
+  document.getElementById('calDays').innerHTML = html;
+
+  // 底部统计
+  const sessions = countSessions(monthRecords);
+  document.getElementById('calSumSessions').textContent = sessions;
+  document.getElementById('calSumDays').textContent = activeDays.size;
 }
 
 // ====== Init ======
