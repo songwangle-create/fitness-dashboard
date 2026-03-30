@@ -1107,19 +1107,8 @@ function formatDetailLabels(r) {
     });
   }
 
-  // 时长和距离
-  if (r.duration && r.distance) {
-    if (type === '游泳') {
-      labels.push(`${r.duration}min · ${r.distance}m`);
-    } else if (type === '跑步') {
-      labels.push(`${r.duration}min · ${r.distance}km`);
-    } else {
-      labels.push(`${r.duration}min`);
-      labels.push(`${r.distance}`);
-    }
-  } else if (r.duration) {
-    labels.push(`${r.duration}min`);
-  } else if (r.distance) {
+  // 距离（不再显示时长）
+  if (r.distance) {
     const unit = type === '游泳' ? 'm' : 'km';
     labels.push(`${r.distance}${unit}`);
   }
