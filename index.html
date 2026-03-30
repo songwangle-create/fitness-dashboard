@@ -1167,7 +1167,7 @@ function parseNotesToLabels(notes) {
     let unit = pureMatch[2];
     if (unit === '分钟') unit = 'min';
     else if (unit === '秒') unit = 's';
-    labels.push(`${val}${unit}`);
+    labels.push(`${val}${unit} × 1组`);
     return labels;
   }
 
