@@ -95,7 +95,7 @@
   /* Stats Bar */
   .stats-bar {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 12px;
     margin-bottom: 24px;
   }
@@ -752,10 +752,6 @@
       <div class="label">总运动</div>
       <div class="value" id="statTotal">0 <span class="unit">次</span></div>
     </div>
-    <div class="stat-card hide-mobile">
-      <div class="label">运动类型</div>
-      <div class="value" id="statTypes">0 <span class="unit">种</span></div>
-    </div>
   </div>
 
   <!-- Unified Filter Bar -->
@@ -1112,7 +1108,6 @@ function updateStats() {
   const monthStr = now.toISOString().slice(0, 7);
   const monthRecords = allRecords.filter(r => r.date && r.date.startsWith(monthStr));
   const monthDays = new Set(monthRecords.map(r => r.date)).size;
-  const types = new Set(allRecords.map(r => r.exercise_type).filter(Boolean)).size;
 
   const monthSessions = countSessions(monthRecords);
   const totalSessions = countSessions(allRecords);
@@ -1120,7 +1115,6 @@ function updateStats() {
   document.getElementById('statMonthCount').innerHTML = `${monthSessions} <span class="unit">次</span>`;
   document.getElementById('statMonthDays').innerHTML = `${monthDays} <span class="unit">天</span>`;
   document.getElementById('statTotal').innerHTML = `${totalSessions} <span class="unit">次</span>`;
-  document.getElementById('statTypes').innerHTML = `${types} <span class="unit">种</span>`;
 }
 
 // ====== View Toggle ======
