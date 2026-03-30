@@ -746,7 +746,7 @@
   <!-- Header -->
   <div class="header">
     <h1>🏋️ Fitness Management</h1>
-    <p><span class="sync-dot"></span>数据实时同步 · 上次更新 <span id="lastUpdate">--</span></p>
+    <p><span class="sync-dot"></span>GitHub Pages · 上次更新 <span id="lastUpdate">--</span></p>
   </div>
 
   <!-- Stats Bar -->
@@ -853,12 +853,13 @@
 
   <!-- Footer -->
   <div class="footer">
-    Fitness Management · 每 10 秒自动同步数据
+    Fitness Management · 数据自动同步自 GitHub
   </div>
 </div>
 
 <script>
-const API_URL = '/api/records';
+// GitHub Pages: 直接读取仓库中的 data.json
+const API_URL = './data.json';
 const ICONS = {
   '抗阻训练': '🏋️', '力量训练': '🏋️', '举铁': '🏋️',
   '瑜伽': '🧘', '普拉提': '🧘',
@@ -1257,7 +1258,8 @@ function renderTable() {
 // ====== Init ======
 
 fetchData();
-setInterval(fetchData, 10000);
+// GitHub Pages 版每 5 分钟检查更新
+setInterval(fetchData, 300000);
 </script>
 
 </body>
