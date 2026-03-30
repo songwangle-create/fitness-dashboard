@@ -5,5 +5,11 @@
     "exercise_type": "单杠悬挂",
     "duration": 1,
     "notes": "改善脊椎受力"
+  },
+  {
+    "date": "2026-03-30",
+    "time": "17:00",
+    "exercise_type": "瑜伽",
+    "notes": "测试 GitHub 同步"
   }
 ]
