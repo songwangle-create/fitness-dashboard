@@ -530,7 +530,7 @@
   }
 
   .day-card-header {
-    padding: 14px 20px 0;
+    padding: 14px 20px 8px;
     display: flex;
     align-items: baseline;
     gap: 8px;
@@ -548,29 +548,51 @@
     color: var(--text-tertiary);
   }
 
-  .day-card-body {
-    padding: 12px 20px 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+  /* Card inner table */
+  .day-card table {
+    width: 100%;
+    border-collapse: collapse;
   }
 
-  .record-item {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+  .day-card thead th {
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 8px 20px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg);
+    white-space: nowrap;
   }
 
-  .record-item + .record-item {
-    padding-top: 12px;
-    border-top: 1px solid #f0eeea;
+  .day-card thead th:last-child {
+    text-align: right;
   }
 
-  .record-top-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
+  .day-card tbody td {
+    padding: 10px 20px;
+    font-size: 13px;
+    color: var(--text-primary);
+    border-bottom: 1px solid #f0eeea;
+    vertical-align: middle;
+  }
+
+  .day-card tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  .day-card tbody tr:hover {
+    background: #faf9f6;
+  }
+
+  .day-card .td-time {
+    text-align: right;
+    color: var(--text-tertiary);
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
   }
 
   /* Exercise Type Tags — no icon */
@@ -597,19 +619,15 @@
     background: var(--tag-gray);
     padding: 1px 7px;
     border-radius: 4px;
-  }
-
-  .time-tag {
-    font-size: 11px;
-    color: var(--text-tertiary);
-    font-variant-numeric: tabular-nums;
+    margin-left: 4px;
   }
 
   /* Detail labels row */
   .detail-labels {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
+    gap: 4px;
+    align-items: center;
   }
 
   .detail-label {
@@ -622,10 +640,9 @@
     white-space: nowrap;
   }
 
-  .record-notes {
+  .detail-notes {
     font-size: 12px;
     color: var(--text-tertiary);
-    line-height: 1.5;
   }
 
   /* Empty state */
@@ -682,14 +699,20 @@
 
     .cards-list { gap: 10px; }
 
-    .day-card-header { padding: 12px 14px 0; }
+    .day-card-header { padding: 12px 14px 6px; }
     .day-card-date { font-size: 14px; }
     .day-card-weekday { font-size: 11px; }
-    .day-card-body { padding: 10px 14px 14px; gap: 10px; }
+
+    .day-card thead th { padding: 6px 10px; font-size: 10px; }
+    .day-card tbody td { padding: 8px 10px; font-size: 12px; }
+
+    /* Hide time column on mobile */
+    .col-time { display: none; }
 
     .type-tag { padding: 2px 8px; font-size: 11px; }
 
-    .detail-label { font-size: 11px; padding: 2px 8px; }
+    .detail-label { font-size: 11px; padding: 2px 6px; }
+    .detail-labels { gap: 3px; }
 
     .footer { padding: 16px; font-size: 11px; }
   }
@@ -1151,35 +1174,41 @@ function renderCards() {
           <span class="day-card-date">${m}月${day}日</span>
           <span class="day-card-weekday">${wd}</span>
         </div>
-        <div class="day-card-body">`;
+        <table>
+          <thead>
+            <tr>
+              <th>类型</th>
+              <th>详情</th>
+              <th class="col-time" style="text-align:right">时间</th>
+            </tr>
+          </thead>
+          <tbody>`;
 
     records.forEach(r => {
       const loc = r.location ? `<span class="location-tag">${r.location}</span>` : '';
-      const time = r.time ? `<span class="time-tag">${r.time}</span>` : '';
 
-      // Detail labels
+      // Detail: labels + notes merged
       const detailItems = formatDetailLabels(r);
-      const detailHtml = detailItems.length > 0
-        ? `<div class="detail-labels">${detailItems.map(t => `<span class="detail-label">${t}</span>`).join('')}</div>`
-        : '';
-
-      // Notes (merged with detail, excluding auto-notes)
-      const notesHtml = r.notes ? `<div class="record-notes">${r.notes}</div>` : '';
+      let detailHtml = '';
+      if (detailItems.length > 0) {
+        detailHtml = `<div class="detail-labels">${detailItems.map(t => `<span class="detail-label">${t}</span>`).join('')}</div>`;
+      }
+      if (r.notes) {
+        detailHtml += `${detailItems.length > 0 ? ' ' : ''}<span class="detail-notes">${r.notes}</span>`;
+      }
+      if (!detailHtml) detailHtml = '—';
 
       html += `
-          <div class="record-item">
-            <div class="record-top-row">
-              ${getTypeTag(r.exercise_type || '其他')}
-              ${loc}
-              ${time}
-            </div>
-            ${detailHtml}
-            ${notesHtml}
-          </div>`;
+            <tr>
+              <td>${getTypeTag(r.exercise_type || '其他')}${loc}</td>
+              <td>${detailHtml}</td>
+              <td class="td-time col-time">${r.time || '--'}</td>
+            </tr>`;
     });
 
     html += `
-        </div>
+          </tbody>
+        </table>
       </div>`;
   });
 
