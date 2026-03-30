@@ -628,9 +628,9 @@
   .detail-label {
     display: inline-block;
     background: var(--bg);
-    padding: 2px 10px;
-    border-radius: 4px;
-    font-size: 13px;
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 12px;
     color: var(--text-secondary);
     white-space: nowrap;
   }
@@ -1089,34 +1089,90 @@ function formatDetailLabels(r) {
   const labels = [];
   const type = r.exercise_type || '';
 
-  // 抗阻训练的 exercises
+  // 抗阻训练的 exercises（结构化数据）
   if (r.exercises && r.exercises.length > 0) {
     r.exercises.forEach(e => {
       let text = e.name || '';
       const parts = [];
       if (e.weight) parts.push(`${e.weight}Kg`);
-      if (e.duration) parts.push(`${e.duration}`);
-      if (e.distance) parts.push(`${e.distance}`);
       if (e.reps && e.sets) {
         const spec = parts.length > 0 ? `(${parts.join(' ')})` : '';
-        text += ` ${e.reps}${spec}×${e.sets}组`;
-      } else if (e.sets && e.reps) {
-        text += ` ${e.sets}×${e.reps}`;
+        text += ` ${e.reps}${spec} × ${e.sets}组`;
       }
       labels.push(text.trim());
     });
   }
 
-  // 距离（不再显示时长）
+  // 距离
   if (r.distance) {
     const unit = type === '游泳' ? 'm' : 'km';
     labels.push(`${r.distance}${unit}`);
+  }
+
+  // 从 notes 智能解析
+  if (r.notes) {
+    const parsed = parseNotesToLabels(r.notes);
+    if (parsed.length > 0) {
+      parsed.forEach(l => labels.push(l));
+    }
   }
 
   if (type === '瑜伽' && labels.length === 0) {
     labels.push('1节课');
   }
 
+  return labels;
+}
+
+function parseNotesToLabels(notes) {
+  const labels = [];
+
+  // 匹配 "第1组30秒+第2组20秒，共50秒" → "30s × 1组", "20s × 1组"
+  const multiGroupPattern = /第\d+组(\d+)(秒|分钟|min)/g;
+  const multiMatches = [...notes.matchAll(multiGroupPattern)];
+  if (multiMatches.length > 0) {
+    // 合并相同时长的组
+    const groups = {};
+    multiMatches.forEach(m => {
+      const val = m[1];
+      const unit = m[2] === '分钟' ? 'min' : (m[2] === 'min' ? 'min' : 's');
+      const key = val + unit;
+      groups[key] = (groups[key] || 0) + 1;
+    });
+    Object.entries(groups).forEach(([spec, count]) => {
+      labels.push(`${spec} × ${count}组`);
+    });
+    return labels;
+  }
+
+  // 匹配 "X分钟/组×Y组" 或 "X秒/组×Y组" 或 "X个/组×Y组"
+  const setPattern = /(\d+)(分钟|秒|个|min|s)\/组\s*[×x]\s*(\d+)组/;
+  const setMatch = notes.match(setPattern);
+  if (setMatch) {
+    const val = setMatch[1];
+    let unit = setMatch[2];
+    if (unit === '分钟') unit = 'min';
+    else if (unit === '秒') unit = 's';
+    else if (unit === '个') unit = '个';
+    const sets = setMatch[3];
+    labels.push(`${val}${unit} × ${sets}组`);
+    return labels;
+  }
+
+  // 匹配纯时长 "50秒" "30min"
+  const pureTime = /^(\d+)(秒|分钟|min|s)$/;
+  const pureMatch = notes.trim().match(pureTime);
+  if (pureMatch) {
+    const val = pureMatch[1];
+    let unit = pureMatch[2];
+    if (unit === '分钟') unit = 'min';
+    else if (unit === '秒') unit = 's';
+    labels.push(`${val}${unit}`);
+    return labels;
+  }
+
+  // 无法解析，原样返回（非结构化备注）
+  // 跳过纯说明性文字不做 label
   return labels;
 }
 
@@ -1171,14 +1227,11 @@ function renderCards() {
     records.forEach(r => {
       const loc = r.location ? `<span class="location-tag">${r.location}</span>` : '';
 
-      // Detail: labels + notes merged
+      // Detail: parsed labels only
       const detailItems = formatDetailLabels(r);
       let detailHtml = '';
       if (detailItems.length > 0) {
         detailHtml = `<div class="detail-labels">${detailItems.map(t => `<span class="detail-label">${t}</span>`).join('')}</div>`;
-      }
-      if (r.notes) {
-        detailHtml += `${detailItems.length > 0 ? ' ' : ''}<span class="detail-notes">${r.notes}</span>`;
       }
       if (!detailHtml) detailHtml = '—';
 
