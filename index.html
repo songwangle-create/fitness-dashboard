@@ -749,7 +749,7 @@
       <div class="value" id="statMonthDays">0 <span class="unit">天</span></div>
     </div>
     <div class="stat-card">
-      <div class="label">总记录</div>
+      <div class="label">总运动</div>
       <div class="value" id="statTotal">0 <span class="unit">条</span></div>
     </div>
     <div class="stat-card hide-mobile">
@@ -1065,6 +1065,48 @@ function resetFiltersMobile() {
 
 // ====== Stats ======
 
+/**
+ * 计算运动次数：同一天内，时间间隔≤2小时的连续记录算一次运动
+ * 不同天一定是不同次运动
+ */
+function countSessions(records) {
+  if (records.length === 0) return 0;
+
+  // 按日期+时间排序
+  const sorted = [...records].sort((a, b) =>
+    (a.date + (a.time || '00:00')).localeCompare(b.date + (b.time || '00:00'))
+  );
+
+  let sessions = 1;
+  for (let i = 1; i < sorted.length; i++) {
+    const prev = sorted[i - 1];
+    const curr = sorted[i];
+
+    // 不同天 → 新的一次运动
+    if (prev.date !== curr.date) {
+      sessions++;
+      continue;
+    }
+
+    // 同一天，比较时间间隔
+    const prevMin = timeToMinutes(prev.time);
+    const currMin = timeToMinutes(curr.time);
+
+    // 间隔超过 120 分钟 → 新的一次运动
+    if (currMin - prevMin > 120) {
+      sessions++;
+    }
+  }
+
+  return sessions;
+}
+
+function timeToMinutes(timeStr) {
+  if (!timeStr) return 0;
+  const [h, m] = timeStr.split(':').map(Number);
+  return (h || 0) * 60 + (m || 0);
+}
+
 function updateStats() {
   const now = new Date();
   const monthStr = now.toISOString().slice(0, 7);
@@ -1072,9 +1114,12 @@ function updateStats() {
   const monthDays = new Set(monthRecords.map(r => r.date)).size;
   const types = new Set(allRecords.map(r => r.exercise_type).filter(Boolean)).size;
 
-  document.getElementById('statMonthCount').innerHTML = `${monthRecords.length} <span class="unit">次</span>`;
+  const monthSessions = countSessions(monthRecords);
+  const totalSessions = countSessions(allRecords);
+
+  document.getElementById('statMonthCount').innerHTML = `${monthSessions} <span class="unit">次</span>`;
   document.getElementById('statMonthDays').innerHTML = `${monthDays} <span class="unit">天</span>`;
-  document.getElementById('statTotal').innerHTML = `${allRecords.length} <span class="unit">条</span>`;
+  document.getElementById('statTotal').innerHTML = `${totalSessions} <span class="unit">次</span>`;
   document.getElementById('statTypes').innerHTML = `${types} <span class="unit">种</span>`;
 }
 
