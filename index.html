@@ -575,7 +575,7 @@
 
   .day-card tbody td {
     padding: 10px 20px;
-    font-size: 13px;
+    font-size: 14px;
     color: var(--text-primary);
     border-bottom: 1px solid #f0eeea;
     vertical-align: middle;
@@ -597,22 +597,15 @@
     white-space: nowrap;
   }
 
-  /* Exercise Type Tags — no icon */
+  /* Exercise Type Tags — plain text, no background */
   .type-tag {
     display: inline-flex;
     align-items: center;
-    padding: 3px 10px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 500;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
     white-space: nowrap;
   }
-
-  .type-tag.resistance    { background: var(--tag-orange); color: var(--tag-orange-text); }
-  .type-tag.yoga          { background: var(--tag-purple); color: var(--tag-purple-text); }
-  .type-tag.swimming      { background: var(--tag-blue);   color: var(--tag-blue-text); }
-  .type-tag.running       { background: var(--tag-green);  color: var(--tag-green-text); }
-  .type-tag.other         { background: var(--tag-gray);   color: var(--tag-gray-text); }
 
   .location-tag {
     display: inline-block;
@@ -637,13 +630,13 @@
     background: var(--bg);
     padding: 2px 10px;
     border-radius: 4px;
-    font-size: 12px;
+    font-size: 13px;
     color: var(--text-secondary);
     white-space: nowrap;
   }
 
   .detail-notes {
-    font-size: 12px;
+    font-size: 13px;
     color: var(--text-tertiary);
   }
 
@@ -706,14 +699,14 @@
     .day-card-weekday { font-size: 11px; }
 
     .day-card thead th { padding: 6px 10px; font-size: 10px; }
-    .day-card tbody td { padding: 8px 10px; font-size: 12px; }
+    .day-card tbody td { padding: 8px 10px; font-size: 13px; }
 
     /* Hide time column on mobile */
     .col-time { display: none; }
 
-    .type-tag { padding: 2px 8px; font-size: 11px; }
+    .type-tag { font-size: 13px; }
 
-    .detail-label { font-size: 11px; padding: 2px 6px; }
+    .detail-label { font-size: 12px; padding: 2px 6px; }
     .detail-labels { gap: 3px; }
 
     .footer { padding: 16px; font-size: 11px; }
