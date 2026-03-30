@@ -5,5 +5,47 @@
     "exercise_type": "单杠悬挂",
     "duration": 1,
     "notes": "改善脊椎受力"
+  },
+  {
+    "date": "2026-03-30",
+    "time": "19:26",
+    "exercise_type": "泡沫轴滚背",
+    "duration": 2,
+    "notes": "1分钟/组×2组"
+  },
+  {
+    "date": "2026-03-30",
+    "time": "19:30",
+    "exercise_type": "腘绳肌拉伸",
+    "duration": 1,
+    "notes": "30秒/组×2组"
+  },
+  {
+    "date": "2026-03-30",
+    "time": "19:31",
+    "exercise_type": "泡沫轴滚臀",
+    "duration": 1,
+    "notes": "1分钟/组×1组"
+  },
+  {
+    "date": "2026-03-30",
+    "time": "19:43",
+    "exercise_type": "臀桥",
+    "duration": 3,
+    "notes": "12个/组×3组"
+  },
+  {
+    "date": "2026-03-30",
+    "time": "19:45",
+    "exercise_type": "平板支撑",
+    "duration": 1,
+    "notes": "50秒"
+  },
+  {
+    "date": "2026-03-30",
+    "time": "19:57",
+    "exercise_type": "单杠悬挂",
+    "duration": 1,
+    "notes": "第1组30秒+第2组20秒，共50秒"
   }
 ]
