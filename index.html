@@ -1466,7 +1466,7 @@ function parseNotesToLabels(notes) {
       groups[key] = (groups[key] || 0) + 1;
     });
     Object.entries(groups).forEach(([spec, count]) => {
-      labels.push(`${spec} × ${count}sets`);
+      labels.push(`${spec} × ${count}`);
     });
     return labels;
   }
@@ -1481,7 +1481,7 @@ function parseNotesToLabels(notes) {
     else if (unit === '秒') unit = 's';
     else if (unit === '个') unit = 'reps';
     const sets = setMatch[3];
-    labels.push(`${val}${unit} × ${sets}sets`);
+    labels.push(`${val}${unit} × ${sets}`);
     return labels;
   }
 
@@ -1491,7 +1491,7 @@ function parseNotesToLabels(notes) {
   if (classMatch) {
     const val = classMatch[1];
     const sessions = classMatch[3];
-    labels.push(`${val}min × ${sessions}class`);
+    labels.push(`${val}min × ${sessions}`);
     return labels;
   }
 
@@ -1500,7 +1500,7 @@ function parseNotesToLabels(notes) {
   const weightMatches = [...notes.matchAll(weightPattern)];
   if (weightMatches.length > 0) {
     weightMatches.forEach(m => {
-      labels.push(`${m[1]}kg × ${m[2]}sets`);
+      labels.push(`${m[1]}kg × ${m[2]}`);
     });
     return labels;
   }
@@ -1513,7 +1513,7 @@ function parseNotesToLabels(notes) {
     let unit = pureMatch[2];
     if (unit === '分钟') unit = 'min';
     else if (unit === '秒') unit = 's';
-    labels.push(`${val}${unit} × 1set`);
+    labels.push(`${val}${unit} × 1`);
     return labels;
   }
 
