@@ -1496,6 +1496,16 @@ function parseNotesToLabels(notes) {
     return labels;
   }
 
+  // 匹配重量型 "20kg/组×1组+30kg/组×1组" 或单个 "30kg/组×3组"
+  const weightPattern = /(\d+(?:\.\d+)?)kg\/组\s*[×x]\s*(\d+)组/g;
+  const weightMatches = [...notes.matchAll(weightPattern)];
+  if (weightMatches.length > 0) {
+    weightMatches.forEach(m => {
+      labels.push(`${m[1]}kg × ${m[2]}组`);
+    });
+    return labels;
+  }
+
   // 匹配纯时长 "50秒" "30min"
   const pureTime = /^(\d+)(秒|分钟|min|s)$/;
   const pureMatch = notes.trim().match(pureTime);
