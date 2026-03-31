@@ -1076,13 +1076,6 @@ let currentView = 'month';
 let filteredRecords = [];
 let currentPeriodDate = new Date();
 
-let activeFilterType = '';
-let activeFilterLocation = '';
-
-function isMobile() {
-  return window.innerWidth <= 768;
-}
-
 // ====== Data ======
 
 async function fetchData() {
@@ -1091,34 +1084,12 @@ async function fetchData() {
     if (!res.ok) throw new Error('fetch failed');
     allRecords = await res.json();
     allRecords.sort((a, b) => (b.date + (b.time || '')).localeCompare(a.date + (a.time || '')));
-    updateFilterDropdowns();
     applyPeriodFilter();
     updateStats();
     document.getElementById('lastUpdate').textContent = new Date().toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
   } catch (e) {
     console.error('Fetch error:', e);
   }
-}
-
-// ====== Filter Dropdowns ======
-
-function updateFilterDropdowns() {
-  const types = [...new Set(allRecords.map(r => r.exercise_type).filter(Boolean))];
-  const locations = [...new Set(allRecords.map(r => r.location).filter(Boolean))];
-
-  const typeSelect = document.getElementById('filterType');
-  const locSelect = document.getElementById('filterLocation');
-  typeSelect.innerHTML = '<option value="">全部类型</option>' + types.map(t => `<option value="${t}">${t}</option>`).join('');
-  locSelect.innerHTML = '<option value="">全部地点</option>' + locations.map(l => `<option value="${l}">${l}</option>`).join('');
-  typeSelect.value = activeFilterType;
-  locSelect.value = activeFilterLocation;
-
-  const typeSelectM = document.getElementById('filterTypeM');
-  const locSelectM = document.getElementById('filterLocationM');
-  typeSelectM.innerHTML = '<option value="">全部类型</option>' + types.map(t => `<option value="${t}">${t}</option>`).join('');
-  locSelectM.innerHTML = '<option value="">全部地点</option>' + locations.map(l => `<option value="${l}">${l}</option>`).join('');
-  typeSelectM.value = activeFilterType;
-  locSelectM.value = activeFilterLocation;
 }
 
 // ====== Period-based Filtering ======
@@ -1130,13 +1101,10 @@ function applyPeriodFilter() {
     if (!r.date) return false;
     if (r.date < start) return false;
     if (r.date > end) return false;
-    if (activeFilterType && r.exercise_type !== activeFilterType) return false;
-    if (activeFilterLocation && r.location !== activeFilterLocation) return false;
     return true;
   });
 
   updatePeriodLabel();
-  updateFilterBtnIndicator();
   renderCards();
 }
 
@@ -1200,85 +1168,6 @@ function updatePeriodLabel() {
     const fmt = d => `${d.getMonth()+1}.${d.getDate()}`;
     label.textContent = isThisWeek ? `${fmt(s)}-${fmt(e)} (本周)` : `${fmt(s)}-${fmt(e)}`;
   }
-}
-
-function updateFilterBtnIndicator() {
-  const btn = document.getElementById('filterBtn');
-  const hasFilter = activeFilterType || activeFilterLocation;
-  btn.classList.toggle('has-filter', !!hasFilter);
-}
-
-// ====== Desktop Popover Filter ======
-
-function toggleFilter() {
-  if (isMobile()) {
-    toggleDrawer(true);
-    return;
-  }
-  const popover = document.getElementById('filterPopover');
-  popover.classList.toggle('show');
-}
-
-function applyDesktopFilter() {
-  activeFilterType = document.getElementById('filterType').value;
-  activeFilterLocation = document.getElementById('filterLocation').value;
-  document.getElementById('filterTypeM').value = activeFilterType;
-  document.getElementById('filterLocationM').value = activeFilterLocation;
-  document.getElementById('filterPopover').classList.remove('show');
-  applyPeriodFilter();
-}
-
-function resetDesktopFilter() {
-  document.getElementById('filterType').value = '';
-  document.getElementById('filterLocation').value = '';
-  activeFilterType = '';
-  activeFilterLocation = '';
-  document.getElementById('filterTypeM').value = '';
-  document.getElementById('filterLocationM').value = '';
-  document.getElementById('filterPopover').classList.remove('show');
-  applyPeriodFilter();
-}
-
-document.addEventListener('click', (e) => {
-  const popover = document.getElementById('filterPopover');
-  const anchor = e.target.closest('.filter-popover-anchor');
-  if (!anchor && popover.classList.contains('show')) {
-    popover.classList.remove('show');
-  }
-});
-
-// ====== Mobile Drawer Filter ======
-
-function toggleDrawer(show) {
-  const backdrop = document.getElementById('drawerBackdrop');
-  const drawer = document.getElementById('filterDrawer');
-  if (show) {
-    backdrop.classList.add('show');
-    requestAnimationFrame(() => drawer.classList.add('show'));
-  } else {
-    drawer.classList.remove('show');
-    setTimeout(() => backdrop.classList.remove('show'), 300);
-  }
-}
-
-function applyFiltersMobile() {
-  activeFilterType = document.getElementById('filterTypeM').value;
-  activeFilterLocation = document.getElementById('filterLocationM').value;
-  document.getElementById('filterType').value = activeFilterType;
-  document.getElementById('filterLocation').value = activeFilterLocation;
-  toggleDrawer(false);
-  applyPeriodFilter();
-}
-
-function resetFiltersMobile() {
-  document.getElementById('filterTypeM').value = '';
-  document.getElementById('filterLocationM').value = '';
-  activeFilterType = '';
-  activeFilterLocation = '';
-  document.getElementById('filterType').value = '';
-  document.getElementById('filterLocation').value = '';
-  toggleDrawer(false);
-  applyPeriodFilter();
 }
 
 // ====== Stats ======
