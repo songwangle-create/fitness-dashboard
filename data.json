@@ -47,5 +47,12 @@
     "exercise_type": "单杠悬挂",
     "duration": 1,
     "notes": "第1组30秒+第2组20秒，共50秒"
+  },
+  {
+    "date": "2026-03-31",
+    "time": "12:13",
+    "exercise_type": "哈他瑜伽",
+    "duration": 60,
+    "notes": "一节课1小时"
   }
 ]
