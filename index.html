@@ -166,16 +166,20 @@
     letter-spacing: 0;
   }
   .stats-type-tag .emoji { font-size: 15px; }
-  .stats-type-tag .count { letter-spacing: 0; }
+  .stats-type-tag .tag-body {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+  }
   .stats-type-tag .dot {
     display: inline-block;
     width: 3px;
     height: 3px;
     border-radius: 50%;
     background: var(--text-tertiary);
-    margin: 0 4px;
-    vertical-align: middle;
+    flex-shrink: 0;
   }
+  .stats-type-tag .count { letter-spacing: 0; }
 
   /* ====== Unified Filter Bar ====== */
   .filter-bar {
@@ -1268,7 +1272,7 @@ function updateStats() {
 
   const html = Object.entries(typeCounts).map(([cat, count]) => {
     const emoji = TYPE_META[cat] || '🏅';
-    return `<span class="stats-type-tag"><span class="emoji">${emoji}</span>${cat}<span class="dot"></span>${count}</span>`;
+    return `<span class="stats-type-tag"><span class="emoji">${emoji}</span><span class="tag-body">${cat}<span class="dot"></span>${count}</span></span>`;
   }).join('');
   document.getElementById('statTypes').innerHTML = html;
 }
