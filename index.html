@@ -1464,10 +1464,19 @@ function renderCards() {
   const area = document.getElementById('cardsArea');
 
   if (filteredRecords.length === 0) {
+    const now = new Date();
+    const isCurrentMonth = currentView === 'month'
+      && currentPeriodDate.getFullYear() === now.getFullYear()
+      && currentPeriodDate.getMonth() === now.getMonth();
+    const isCurrentWeek = currentView === 'week'
+      && getPeriodRange(currentPeriodDate, 'week').start === getPeriodRange(now, 'week').start;
+    const isCurrent = isCurrentMonth || isCurrentWeek;
+    const icon = isCurrent ? '🏋' : '📭';
+    const msg = isCurrent ? '新的月份，动起来！' : '没有符合条件的记录';
     area.innerHTML = `
       <div class="empty-state">
-        <div class="icon">📭</div>
-        <p>没有符合条件的记录</p>
+        <div class="icon">${icon}</div>
+        <p>${msg}</p>
       </div>`;
     return;
   }
