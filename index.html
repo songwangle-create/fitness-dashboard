@@ -41,7 +41,7 @@
     --font: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
   }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
   body {
     font-family: var(--font);
@@ -128,7 +128,7 @@
     flex-shrink: 0;
   }
   .stats-cal-btn:hover { background: var(--bg); color: var(--text-primary); }
-  .stats-cal-btn:active { transform: scale(0.95); }
+  .stats-cal-btn:active { background: var(--border); }
   .stats-cal-btn svg { width: 18px; height: 18px; }
   .stats-value {
     font-size: 28px;
@@ -213,7 +213,7 @@
   }
 
   .nav-btn:active {
-    transform: scale(0.95);
+    background: var(--border);
   }
 
   .period-label {
