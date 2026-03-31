@@ -1044,61 +1044,6 @@
         <button id="viewMonth" class="active" onclick="setView('month')">按月</button>
         <button id="viewWeek" onclick="setView('week')">按周</button>
       </div>
-      <div class="filter-popover-anchor">
-        <button class="filter-btn" id="filterBtn" onclick="toggleFilter()">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
-          </svg>
-        </button>
-        <div class="filter-popover" id="filterPopover">
-          <div class="popover-title">
-            <span>筛选</span>
-            <button class="close-pop" onclick="toggleFilter()">✕</button>
-          </div>
-          <div class="popover-field">
-            <label>运动类型</label>
-            <select id="filterType">
-              <option value="">全部类型</option>
-            </select>
-          </div>
-          <div class="popover-field">
-            <label>运动地点</label>
-            <select id="filterLocation">
-              <option value="">全部地点</option>
-            </select>
-          </div>
-          <div class="popover-actions">
-            <button class="btn" onclick="resetDesktopFilter()">重置</button>
-            <button class="btn btn-accent" onclick="applyDesktopFilter()">确认</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Mobile Filter Drawer -->
-  <div class="filter-drawer-backdrop" id="drawerBackdrop" onclick="toggleDrawer(false)"></div>
-  <div class="filter-drawer" id="filterDrawer">
-    <div class="drawer-handle"></div>
-    <div class="drawer-title">
-      <span>筛选条件</span>
-      <button class="close-btn" onclick="toggleDrawer(false)">✕</button>
-    </div>
-    <div class="drawer-field">
-      <label>运动类型</label>
-      <select id="filterTypeM">
-        <option value="">全部类型</option>
-      </select>
-    </div>
-    <div class="drawer-field">
-      <label>运动地点</label>
-      <select id="filterLocationM">
-        <option value="">全部地点</option>
-      </select>
-    </div>
-    <div class="drawer-actions">
-      <button class="btn" onclick="resetFiltersMobile()">重置</button>
-      <button class="btn btn-accent" onclick="applyFiltersMobile()">确认筛选</button>
     </div>
   </div>
 
