@@ -104,15 +104,16 @@
   }
   .stats-header {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
-    margin-bottom: 6px;
+    margin-bottom: 16px;
   }
   .stats-header .label {
     font-size: 12px;
     color: var(--text-tertiary);
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    line-height: 32px;
   }
   .stats-cal-btn {
     width: 32px; height: 32px;
@@ -120,13 +121,14 @@
     border: 1px solid var(--border);
     background: var(--surface);
     color: var(--text-secondary);
-    font-size: 18px;
     cursor: pointer;
     display: flex; align-items: center; justify-content: center;
     transition: all 0.15s;
+    flex-shrink: 0;
   }
   .stats-cal-btn:hover { background: var(--bg); color: var(--text-primary); }
   .stats-cal-btn:active { transform: scale(0.95); }
+  .stats-cal-btn svg { width: 18px; height: 18px; }
   .stats-value {
     font-size: 28px;
     font-weight: 650;
@@ -154,8 +156,10 @@
     font-size: 13px;
     color: var(--text-secondary);
     white-space: nowrap;
+    letter-spacing: 0;
   }
   .stats-type-tag .emoji { font-size: 15px; }
+  .stats-type-tag .count { letter-spacing: 0; }
 
   /* ====== Unified Filter Bar ====== */
   .filter-bar {
@@ -993,7 +997,11 @@
   <div class="stats-bar">
     <div class="stats-header">
       <span class="label">本月运动</span>
-      <button class="stats-cal-btn" onclick="openCalendar()">📅</button>
+      <button class="stats-cal-btn" onclick="openCalendar()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+      </button>
     </div>
     <div class="stats-value" id="statMonthDays">0 <span class="unit">天</span></div>
     <div class="stats-types" id="statTypes"></div>
@@ -1237,14 +1245,14 @@ function updateStats() {
     '瑜伽': '🧘',
     '游泳': '🏊',
     '徒步': '🥾',
-    '拉伸塑形': '🧘‍♀️',
+    '拉伸塑形': '💆‍♀️',
     '跑步': '🏃',
     '其他': '🏅'
   };
 
   const html = Object.entries(typeCounts).map(([cat, count]) => {
     const emoji = TYPE_META[cat] || '🏅';
-    return `<span class="stats-type-tag"><span class="emoji">${emoji}</span>${cat}·${count}</span>`;
+    return `<span class="stats-type-tag"><span class="emoji">${emoji}</span>${cat}<span style="margin:0 2px">·</span>${count}</span>`;
   }).join('');
   document.getElementById('statTypes').innerHTML = html;
 }
