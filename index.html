@@ -1601,10 +1601,6 @@ function renderCalendar() {
 
   document.getElementById('calDays').innerHTML = html;
 
-  // 底部统计
-  const sessions = countSessions(monthRecords);
-  document.getElementById('calSumSessions').textContent = sessions;
-  document.getElementById('calSumDays').textContent = activeDays.size;
 }
 
 // ====== Init ======
