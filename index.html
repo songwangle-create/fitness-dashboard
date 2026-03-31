@@ -92,42 +92,70 @@
     50% { opacity: 0.4; }
   }
 
-  /* Stats Bar */
+  /* Stats Bar — single card */
   .stats-bar {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin-bottom: 24px;
-  }
-
-  .stat-card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 16px 18px;
+    padding: 20px 20px 16px;
+    margin-bottom: 24px;
     box-shadow: var(--shadow);
+    position: relative;
   }
-
-  .stat-card .label {
+  .stats-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+  .stats-header .label {
     font-size: 12px;
     color: var(--text-tertiary);
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    margin-bottom: 4px;
   }
-
-  .stat-card .value {
-    font-size: 24px;
+  .stats-cal-btn {
+    width: 32px; height: 32px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-secondary);
+    font-size: 18px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+  }
+  .stats-cal-btn:hover { background: var(--bg); color: var(--text-primary); }
+  .stats-cal-btn:active { transform: scale(0.95); }
+  .stats-value {
+    font-size: 28px;
     font-weight: 650;
     color: var(--text-primary);
     letter-spacing: -0.5px;
+    margin-bottom: 12px;
   }
-
-  .stat-card .unit {
-    font-size: 13px;
+  .stats-value .unit {
+    font-size: 14px;
     color: var(--text-secondary);
     font-weight: 400;
   }
+  .stats-types {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .stats-type-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--bg);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    white-space: nowrap;
+  }
+  .stats-type-tag .emoji { font-size: 15px; }
 
   /* ====== Unified Filter Bar ====== */
   .filter-bar {
@@ -685,14 +713,9 @@
     .header h1 { font-size: 22px; }
     .header p { font-size: 12px; }
 
-    .stats-bar {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 8px;
-      margin-bottom: 16px;
-    }
-    .stat-card.hide-mobile { display: none; }
-    .stat-card { padding: 12px 14px; }
-    .stat-card .value { font-size: 20px; }
+    .stats-bar { padding: 16px 14px 12px; margin-bottom: 16px; }
+    .stats-value { font-size: 24px; margin-bottom: 10px; }
+    .stats-type-tag { font-size: 12px; padding: 3px 10px; }
 
     .filter-bar { padding: 8px 12px; gap: 8px; }
     .period-label { font-size: 14px; min-width: 70px; padding: 4px 4px; }
@@ -724,21 +747,6 @@
   /* Tablet */
   @media (min-width: 641px) and (max-width: 768px) {
     .container { padding: 24px 16px; }
-    .stats-bar { grid-template-columns: repeat(2, 1fr); }
-    .stat-card.hide-mobile { display: none; }
-  }
-
-  /* ====== Stats Bar clickable ====== */
-  .stat-card.clickable {
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-  .stat-card.clickable:hover {
-    border-color: var(--accent);
-    box-shadow: var(--shadow-lg);
-  }
-  .stat-card.clickable:active {
-    transform: scale(0.98);
   }
 
   /* ====== Calendar Modal (PC) ====== */
@@ -983,18 +991,12 @@
 
   <!-- Stats Bar（统计栏） -->
   <div class="stats-bar">
-    <div class="stat-card clickable" onclick="openCalendar()">
-      <div class="label">本月运动</div>
-      <div class="value" id="statMonthCount">0 <span class="unit">次</span></div>
+    <div class="stats-header">
+      <span class="label">本月运动</span>
+      <button class="stats-cal-btn" onclick="openCalendar()">📅</button>
     </div>
-    <div class="stat-card clickable" onclick="openCalendar()">
-      <div class="label">本月天数</div>
-      <div class="value" id="statMonthDays">0 <span class="unit">天</span></div>
-    </div>
-    <div class="stat-card hide-mobile">
-      <div class="label">总运动</div>
-      <div class="value" id="statTotal">0 <span class="unit">次</span></div>
-    </div>
+    <div class="stats-value" id="statMonthDays">0 <span class="unit">天</span></div>
+    <div class="stats-types" id="statTypes"></div>
   </div>
 
   <!-- Calendar Modal -->
@@ -1220,12 +1222,77 @@ function updateStats() {
   const monthRecords = allRecords.filter(r => r.date && r.date.startsWith(monthStr));
   const monthDays = new Set(monthRecords.map(r => r.date)).size;
 
-  const monthSessions = countSessions(monthRecords);
-  const totalSessions = countSessions(allRecords);
-
-  document.getElementById('statMonthCount').innerHTML = `${monthSessions} <span class="unit">次</span>`;
   document.getElementById('statMonthDays').innerHTML = `${monthDays} <span class="unit">天</span>`;
-  document.getElementById('statTotal').innerHTML = `${totalSessions} <span class="unit">次</span>`;
+
+  // 按运动次数分组（同天2小时内合并），然后归类
+  const sessions = groupIntoSessions(monthRecords);
+  const typeCounts = {};
+  sessions.forEach(session => {
+    const cat = classifySession(session);
+    typeCounts[cat] = (typeCounts[cat] || 0) + 1;
+  });
+
+  const TYPE_META = {
+    '力量训练': '💪',
+    '瑜伽': '🧘',
+    '游泳': '🏊',
+    '徒步': '🥾',
+    '拉伸塑形': '🧘‍♀️',
+    '跑步': '🏃',
+    '其他': '🏅'
+  };
+
+  const html = Object.entries(typeCounts).map(([cat, count]) => {
+    const emoji = TYPE_META[cat] || '🏅';
+    return `<span class="stats-type-tag"><span class="emoji">${emoji}</span>${cat}·${count}</span>`;
+  }).join('');
+  document.getElementById('statTypes').innerHTML = html;
+}
+
+// 将记录分组为运动次数（同天2h内合并）
+function groupIntoSessions(records) {
+  if (records.length === 0) return [];
+  const sorted = [...records].sort((a, b) =>
+    (a.date + (a.time || '00:00')).localeCompare(b.date + (b.time || '00:00'))
+  );
+  const sessions = [[sorted[0]]];
+  for (let i = 1; i < sorted.length; i++) {
+    const prev = sorted[i - 1];
+    const curr = sorted[i];
+    if (prev.date !== curr.date || timeToMinutes(curr.time) - timeToMinutes(prev.time) > 120) {
+      sessions.push([curr]);
+    } else {
+      sessions[sessions.length - 1].push(curr);
+    }
+  }
+  return sessions;
+}
+
+// 归类一次运动的类型（按多数动作判断）
+const CATEGORY_MAP = {
+  '力量训练': ['深蹲','卧推','硬拉','二头','三头','肩推','哑铃','杠铃','器械','举铁','撸铁','力量','胸','背'],
+  '瑜伽': ['瑜伽','普拉提','哈他','流瑜伽','阴瑜伽','阿斯汤加'],
+  '游泳': ['游泳','蛙泳','自由泳'],
+  '徒步': ['徒步','登山','远足'],
+  '拉伸塑形': ['拉伸','泡沫轴','悬挂','单杠','平板支撑','臀桥','腘绳肌','滚背','滚臀','塑形','放松'],
+  '跑步': ['跑步','跑','慢跑','晨跑']
+};
+
+function classifySession(records) {
+  const cats = {};
+  records.forEach(r => {
+    const type = r.exercise_type || '';
+    let matched = '其他';
+    for (const [cat, keywords] of Object.entries(CATEGORY_MAP)) {
+      if (keywords.some(kw => type.includes(kw))) {
+        matched = cat;
+        break;
+      }
+    }
+    cats[matched] = (cats[matched] || 0) + 1;
+  });
+  // 返回数量最多的类型
+  return Object.entries(cats).sort((a, b) => b[1] - a[1])[0][0];
 }
 
 // ====== View Toggle ======
