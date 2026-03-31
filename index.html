@@ -1471,8 +1471,8 @@ function renderCards() {
     const isCurrentWeek = currentView === 'week'
       && getPeriodRange(currentPeriodDate, 'week').start === getPeriodRange(now, 'week').start;
     const isCurrent = isCurrentMonth || isCurrentWeek;
-    const icon = isCurrent ? '🏋' : '📭';
-    const msg = isCurrent ? '新的月份，动起来！' : '没有符合条件的记录';
+    const icon = isCurrent ? '🏋' : '🙅🏻';
+    const msg = isCurrent ? '新的月份，动起来！' : '没有运动记录';
     area.innerHTML = `
       <div class="empty-state">
         <div class="icon">${icon}</div>
