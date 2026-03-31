@@ -1528,7 +1528,11 @@ function groupByDay(records) {
     if (!days[r.date]) days[r.date] = [];
     days[r.date].push(r);
   });
-  // Sort days descending
+  // 每天内部按时间正序（最早在上，最新在下）
+  Object.values(days).forEach(arr => {
+    arr.sort((a, b) => (a.time || '').localeCompare(b.time || ''));
+  });
+  // 天之间倒序（最新的天在上）
   return Object.entries(days).sort((a, b) => b[0].localeCompare(a[0]));
 }
 
