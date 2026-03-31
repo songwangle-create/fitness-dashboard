@@ -1259,7 +1259,7 @@ function updateStats() {
 
   const html = Object.entries(typeCounts).map(([cat, count]) => {
     const emoji = TYPE_META[cat] || '🏅';
-    return `<span class="stats-type-tag"><span class="emoji">${emoji}</span>${cat}<span style="margin:0">·</span>${count}</span>`;
+    return `<span class="stats-type-tag"><span class="emoji">${emoji}</span>${cat}<span style="margin:0 -1px">·</span>${count}</span>`;
   }).join('');
   document.getElementById('statTypes').innerHTML = html;
 }
