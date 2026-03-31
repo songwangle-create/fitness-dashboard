@@ -1486,6 +1486,16 @@ function parseNotesToLabels(notes) {
     return labels;
   }
 
+  // 匹配课程类 "60min/节×1节" 或 "50分钟/节×1节"
+  const classPattern = /(\d+)(分钟|min)\/节\s*[×x]\s*(\d+)节/;
+  const classMatch = notes.match(classPattern);
+  if (classMatch) {
+    const val = classMatch[1];
+    const sessions = classMatch[3];
+    labels.push(`${val}min × ${sessions}节`);
+    return labels;
+  }
+
   // 匹配纯时长 "50秒" "30min"
   const pureTime = /^(\d+)(秒|分钟|min|s)$/;
   const pureMatch = notes.trim().match(pureTime);
