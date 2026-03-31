@@ -1454,11 +1454,10 @@ function formatDetailLabels(r) {
 function parseNotesToLabels(notes) {
   const labels = [];
 
-  // 匹配 "第1组30秒+第2组20秒，共50秒" → "30s × 1组", "20s × 1组"
+  // 匹配 "第1组30秒+第2组20秒，共50秒"
   const multiGroupPattern = /第\d+组(\d+)(秒|分钟|min)/g;
   const multiMatches = [...notes.matchAll(multiGroupPattern)];
   if (multiMatches.length > 0) {
-    // 合并相同时长的组
     const groups = {};
     multiMatches.forEach(m => {
       const val = m[1];
@@ -1467,7 +1466,7 @@ function parseNotesToLabels(notes) {
       groups[key] = (groups[key] || 0) + 1;
     });
     Object.entries(groups).forEach(([spec, count]) => {
-      labels.push(`${spec} × ${count}组`);
+      labels.push(`${spec} × ${count}sets`);
     });
     return labels;
   }
@@ -1480,9 +1479,9 @@ function parseNotesToLabels(notes) {
     let unit = setMatch[2];
     if (unit === '分钟') unit = 'min';
     else if (unit === '秒') unit = 's';
-    else if (unit === '个') unit = '个';
+    else if (unit === '个') unit = 'reps';
     const sets = setMatch[3];
-    labels.push(`${val}${unit} × ${sets}组`);
+    labels.push(`${val}${unit} × ${sets}sets`);
     return labels;
   }
 
@@ -1492,7 +1491,7 @@ function parseNotesToLabels(notes) {
   if (classMatch) {
     const val = classMatch[1];
     const sessions = classMatch[3];
-    labels.push(`${val}min × ${sessions}节`);
+    labels.push(`${val}min × ${sessions}class`);
     return labels;
   }
 
@@ -1501,7 +1500,7 @@ function parseNotesToLabels(notes) {
   const weightMatches = [...notes.matchAll(weightPattern)];
   if (weightMatches.length > 0) {
     weightMatches.forEach(m => {
-      labels.push(`${m[1]}kg × ${m[2]}组`);
+      labels.push(`${m[1]}kg × ${m[2]}sets`);
     });
     return labels;
   }
@@ -1514,12 +1513,11 @@ function parseNotesToLabels(notes) {
     let unit = pureMatch[2];
     if (unit === '分钟') unit = 'min';
     else if (unit === '秒') unit = 's';
-    labels.push(`${val}${unit} × 1组`);
+    labels.push(`${val}${unit} × 1set`);
     return labels;
   }
 
-  // 无法解析，原样返回（非结构化备注）
-  // 跳过纯说明性文字不做 label
+  // 无法解析，跳过
   return labels;
 }
 
