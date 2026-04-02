@@ -54,5 +54,13 @@
     "exercise_type": "哈他瑜伽",
     "duration": 60,
     "notes": "60min/节×1节"
+  },
+  {
+    "date": "2026-04-02",
+    "time": "22:49",
+    "exercise_type": "单杠悬挂",
+    "duration": 1,
+    "intensity": "中",
+    "notes": "45秒"
   }
 ]
