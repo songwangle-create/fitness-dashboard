@@ -62,5 +62,13 @@
     "duration": 1,
     "intensity": "中",
     "notes": "45秒"
+  },
+  {
+    "date": "2026-04-03",
+    "time": "23:51",
+    "exercise_type": "徒步",
+    "duration": 540,
+    "intensity": "高",
+    "notes": "13公里，约9小时，累计爬升待补充"
   }
 ]
