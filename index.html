@@ -1360,8 +1360,27 @@ function formatDetailLabels(r) {
     labels.push(`${r.distance}${unit}`);
   }
 
-  // 从 notes 智能解析
-  if (r.notes) {
+  // 徒步专属：从 notes 提取距离/时长/爬升
+  if (type === '徒步' && r.notes) {
+    const distMatch = r.notes.match(/(\d+(?:\.\d+)?)\s*(公里|km)/i);
+    if (distMatch && !r.distance) labels.push(`${distMatch[1]}公里`);
+
+    const timeMatch = r.notes.match(/约?(\d+(?:\.\d+)?)\s*(小时|h)/i);
+    if (timeMatch) labels.push(`${timeMatch[1]}小时`);
+
+    const elevMatch = r.notes.match(/(?:爬升|累计爬升|总爬升)\s*(\d+(?:\.\d+)?)\s*(m|米)?/i);
+    if (elevMatch) labels.push(`爬升${elevMatch[1]}m`);
+
+    // duration 兜底（如果 notes 里没解析出时长但有 duration）
+    if (!timeMatch && r.duration) {
+      const h = r.duration / 60;
+      if (h >= 1) labels.push(`${h % 1 === 0 ? h : h.toFixed(1)}小时`);
+      else labels.push(`${r.duration}分钟`);
+    }
+  }
+
+  // 从 notes 智能解析（非徒步）
+  if (r.notes && type !== '徒步') {
     const parsed = parseNotesToLabels(r.notes);
     if (parsed.length > 0) {
       parsed.forEach(l => labels.push(l));
