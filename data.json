@@ -70,5 +70,12 @@
     "duration": 540,
     "intensity": "高",
     "notes": "13公里，约9小时，累计爬升待补充"
+  },
+  {
+    "date": "2026-04-05",
+    "time": "10:00",
+    "exercise_type": "徒步",
+    "duration": 390,
+    "notes": "9.9km, 6.5h"
   }
 ]
