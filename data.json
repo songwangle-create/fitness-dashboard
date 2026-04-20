@@ -105,5 +105,19 @@
     "exercise_type": "哈他瑜伽",
     "duration": 60,
     "notes": "60min/节×1节"
+  },
+  {
+    "date": "2026-04-17",
+    "time": "16:00",
+    "exercise_type": "流瑜伽",
+    "duration": 60,
+    "notes": "60min/节×1节"
+  },
+  {
+    "date": "2026-04-19",
+    "time": "16:00",
+    "exercise_type": "哈他瑜伽",
+    "duration": 60,
+    "notes": "60min/节×1节"
   }
 ]
