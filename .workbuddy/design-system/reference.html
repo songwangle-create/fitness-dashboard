@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Warm Minimal — Design System Reference</title>
+<style>
+  :root {
+    /* Colors */
+    --bg: #f5f4ef;
+    --surface: #ffffff;
+    --text-primary: #1a1a1a;
+    --text-secondary: #6b6560;
+    --text-tertiary: #9b958f;
+    --border: #e5e0da;
+    --border-light: #f0eeea;
+    --accent: #c96442;
+    --accent-light: #fdf0eb;
+    --accent-hover: #b5563a;
+    --tag-blue: #e8f0fe; --tag-blue-text: #3b6dd4;
+    --tag-green: #e6f5ec; --tag-green-text: #1a7d42;
+    --tag-purple: #f0e8fe; --tag-purple-text: #6b3dd4;
+    --tag-orange: #fef3e8; --tag-orange-text: #c96442;
+    --tag-pink: #fce8f0; --tag-pink-text: #c43c6e;
+    --tag-gray: #f0eeea; --tag-gray-text: #6b6560;
+    /* Radius */
+    --radius-xs: 4px;
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+    --radius-pill: 20px;
+    /* Shadows */
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
+    --shadow-lg: 0 4px 12px rgba(0,0,0,0.06), 0 2px 4px rgba(0,0,0,0.04);
+    --shadow-xl: 0 20px 60px rgba(0,0,0,0.15);
+    /* Font */
+    --font: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text-primary);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 48px 24px;
+  }
+
+  /* ====== Page Header ====== */
+  .page-header {
+    margin-bottom: 48px;
+  }
+
+  .page-header h1 {
+    font-size: 32px;
+    font-weight: 650;
+    letter-spacing: -0.5px;
+    margin-bottom: 4px;
+  }
+
+  .page-header .subtitle {
+    font-size: 15px;
+    color: var(--text-tertiary);
+  }
+
+  .page-header .version {
+    display: inline-block;
+    background: var(--accent-light);
+    color: var(--accent);
+    padding: 2px 10px;
+    border-radius: var(--radius-pill);
+    font-size: 12px;
+    font-weight: 500;
+    margin-left: 8px;
+    vertical-align: middle;
+    position: relative;
+    top: -2px;
+  }
+
+  /* ====== Section ====== */
+  .section {
+    margin-bottom: 48px;
+  }
+
+  .section-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-light);
+  }
+
+  /* ====== Color Swatches ====== */
+  .color-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+  }
+
+  .swatch {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .swatch-color {
+    height: 64px;
+    border-bottom: 1px solid var(--border-light);
+  }
+
+  .swatch-info {
+    padding: 10px 12px;
+  }
+
+  .swatch-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+  }
+
+  .swatch-value {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    font-family: 'SF Mono', monospace;
+  }
+
+  /* Tag colors — 2 column grid */
+  .tag-color-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 10px;
+    margin-top: 16px;
+  }
+
+  .tag-swatch {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 10px 14px;
+  }
+
+  .tag-swatch .tag-dot {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .tag-swatch .tag-info {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .tag-swatch .tag-label {
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .tag-swatch .tag-hex {
+    color: var(--text-tertiary);
+    font-family: 'SF Mono', monospace;
+    font-size: 11px;
+  }
+
+  /* ====== Typography ====== */
+  .type-row {
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border-light);
+  }
+
+  .type-row:last-child { border-bottom: none; }
+
+  .type-spec {
+    width: 140px;
+    flex-shrink: 0;
+    font-size: 12px;
+    color: var(--text-tertiary);
+    font-family: 'SF Mono', monospace;
+  }
+
+  .type-sample {
+    flex: 1;
+  }
+
+  /* ====== Spacing ====== */
+  .spacing-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 8px 0;
+  }
+
+  .spacing-label {
+    width: 80px;
+    font-size: 12px;
+    color: var(--text-tertiary);
+    font-family: 'SF Mono', monospace;
+    flex-shrink: 0;
+    text-align: right;
+  }
+
+  .spacing-bar {
+    height: 20px;
+    background: var(--accent-light);
+    border: 1px solid var(--accent);
+    border-radius: 3px;
+    opacity: 0.7;
+  }
+
+  .spacing-px {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    width: 36px;
+  }
+
+  /* ====== Radius ====== */
+  .radius-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: flex-end;
+  }
+
+  .radius-item {
+    text-align: center;
+  }
+
+  .radius-box {
+    width: 64px;
+    height: 64px;
+    background: var(--accent-light);
+    border: 2px solid var(--accent);
+    margin-bottom: 6px;
+  }
+
+  .radius-info {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    font-family: 'SF Mono', monospace;
+  }
+
+  .radius-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  /* ====== Shadow ====== */
+  .shadow-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .shadow-item {
+    width: 140px;
+    height: 80px;
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-secondary);
+  }
+
+  /* ====== Components ====== */
+  .comp-row {
+    margin-bottom: 32px;
+  }
+
+  .comp-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .comp-demo {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+  }
+
+  /* Buttons */
+  .demo-btn {
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.15s;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .demo-btn:hover {
+    background: var(--bg);
+    color: var(--text-primary);
+  }
+
+  .demo-btn-accent {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+
+  .demo-btn-accent:hover {
+    background: var(--accent-hover);
+    border-color: var(--accent-hover);
+    color: white;
+  }
+
+  .demo-btn-disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  /* Cards */
+  .demo-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    width: 320px;
+  }
+
+  .demo-card-header {
+    padding: 12px 20px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+
+  .demo-card-date {
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .demo-card-weekday {
+    font-size: 12px;
+    color: var(--text-tertiary);
+  }
+
+  .demo-card-body {
+    padding: 12px 20px;
+  }
+
+  .demo-card-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border-light);
+  }
+
+  .demo-card-row:last-child {
+    border-bottom: none;
+  }
+
+  .demo-card-action {
+    font-size: 14px;
+    font-weight: 600;
+    width: 80px;
+    flex-shrink: 0;
+  }
+
+  .demo-card-detail {
+    flex: 1;
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+
+  .demo-card-time {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    font-variant-numeric: tabular-nums;
+    width: 50px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  /* Tags */
+  .demo-tag-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--bg);
+    padding: 4px 12px;
+    border-radius: var(--radius-pill);
+    font-size: 13px;
+    color: var(--text-secondary);
+    white-space: nowrap;
+  }
+
+  .demo-tag-pill .dot {
+    display: inline-block;
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    background: var(--text-tertiary);
+  }
+
+  .demo-detail-label {
+    display: inline-block;
+    background: var(--bg);
+    padding: 3px 10px;
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    color: var(--text-secondary);
+    white-space: nowrap;
+  }
+
+  /* Toggle */
+  .demo-toggle {
+    display: inline-flex;
+    background: var(--bg);
+    border-radius: var(--radius-md);
+    padding: 2px;
+    border: 1px solid var(--border);
+  }
+
+  .demo-toggle button {
+    font-family: var(--font);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 5px 14px;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--text-tertiary);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .demo-toggle button.active {
+    background: var(--surface);
+    color: var(--text-primary);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+  }
+
+  /* Input */
+  .demo-select {
+    font-family: var(--font);
+    font-size: 13px;
+    padding: 7px 32px 7px 10px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--bg);
+    color: var(--text-primary);
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+    min-width: 160px;
+  }
+
+  .demo-select:focus {
+    border-color: var(--accent);
+  }
+
+  /* ====== Stats Bar Demo ====== */
+  .demo-stats-bar {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+    max-width: 400px;
+  }
+
+  .demo-stats-label {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+
+  .demo-stats-value {
+    font-size: 28px;
+    font-weight: 650;
+    letter-spacing: -0.5px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+  }
+
+  .demo-stats-value .unit {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-weight: 400;
+  }
+
+  .demo-stats-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  /* ====== Motion ====== */
+  .motion-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .motion-item {
+    text-align: center;
+  }
+
+  .motion-box {
+    width: 80px;
+    height: 40px;
+    background: var(--accent);
+    border-radius: var(--radius-md);
+    margin-bottom: 8px;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .motion-box:hover {
+    transform: scale(1.05);
+  }
+
+  .motion-box::after {
+    content: 'hover me';
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    color: rgba(255,255,255,0.7);
+    font-weight: 500;
+  }
+
+  .motion-fast { transition: transform 0.15s ease; }
+  .motion-normal { transition: transform 0.2s ease; }
+  .motion-slow { transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1); }
+
+  .motion-info {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-weight: 600;
+  }
+
+  .motion-spec {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    font-family: 'SF Mono', monospace;
+  }
+
+  /* ====== Responsive Rules ====== */
+  .rules-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  .rules-table th {
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 8px 12px;
+    border-bottom: 2px solid var(--border);
+    background: var(--bg);
+  }
+
+  .rules-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border-light);
+    color: var(--text-primary);
+  }
+
+  .rules-table td:first-child {
+    font-weight: 500;
+    width: 200px;
+  }
+
+  .rules-table code {
+    background: var(--bg);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 12px;
+    color: var(--accent);
+  }
+
+  /* ====== Token Embed ====== */
+  .token-embed {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .token-embed pre {
+    font-family: 'SF Mono', 'Menlo', monospace;
+    font-size: 12px;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  @media (max-width: 640px) {
+    .page { padding: 24px 16px; }
+    .page-header h1 { font-size: 24px; }
+    .color-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+    .type-row { flex-direction: column; gap: 4px; }
+    .type-spec { width: auto; }
+    .demo-card { width: 100%; }
+    .rules-table { font-size: 12px; }
+    .rules-table td:first-child { width: 120px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ====== Header ====== -->
+  <div class="page-header">
+    <h1>Warm Minimal <span class="version">v1.0</span></h1>
+    <p class="subtitle">从 fitness-dashboard 提炼的设计系统 · 暖灰底色 + 陶土强调色</p>
+  </div>
+
+  <!-- ====== 1. COLORS ====== -->
+  <div class="section">
+    <div class="section-title">Colors · 色板</div>
+
+    <div class="color-grid">
+      <div class="swatch">
+        <div class="swatch-color" style="background:#f5f4ef"></div>
+        <div class="swatch-info"><div class="swatch-name">bg</div><div class="swatch-value">#f5f4ef</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#ffffff; border-bottom-color:#e5e0da"></div>
+        <div class="swatch-info"><div class="swatch-name">surface</div><div class="swatch-value">#ffffff</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#1a1a1a"></div>
+        <div class="swatch-info"><div class="swatch-name">text-primary</div><div class="swatch-value">#1a1a1a</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#6b6560"></div>
+        <div class="swatch-info"><div class="swatch-name">text-secondary</div><div class="swatch-value">#6b6560</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#9b958f"></div>
+        <div class="swatch-info"><div class="swatch-name">text-tertiary</div><div class="swatch-value">#9b958f</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#e5e0da"></div>
+        <div class="swatch-info"><div class="swatch-name">border</div><div class="swatch-value">#e5e0da</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#f0eeea"></div>
+        <div class="swatch-info"><div class="swatch-name">border-light</div><div class="swatch-value">#f0eeea</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#c96442"></div>
+        <div class="swatch-info"><div class="swatch-name">accent</div><div class="swatch-value">#c96442</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#fdf0eb"></div>
+        <div class="swatch-info"><div class="swatch-name">accent-light</div><div class="swatch-value">#fdf0eb</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#b5563a"></div>
+        <div class="swatch-info"><div class="swatch-name">accent-hover</div><div class="swatch-value">#b5563a</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#faf9f6"></div>
+        <div class="swatch-info"><div class="swatch-name">hover-bg</div><div class="swatch-value">#faf9f6</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#22c55e"></div>
+        <div class="swatch-info"><div class="swatch-name">status-green</div><div class="swatch-value">#22c55e</div></div>
+      </div>
+    </div>
+
+    <!-- Tag Colors -->
+    <div class="section-title" style="margin-top:24px">Tag Colors · 标签色板</div>
+    <div class="tag-color-grid">
+      <div class="tag-swatch">
+        <div class="tag-dot" style="background:#e8f0fe;color:#3b6dd4">Aa</div>
+        <div class="tag-info"><div class="tag-label">Blue</div><div class="tag-hex">#e8f0fe / #3b6dd4</div></div>
+      </div>
+      <div class="tag-swatch">
+        <div class="tag-dot" style="background:#e6f5ec;color:#1a7d42">Aa</div>
+        <div class="tag-info"><div class="tag-label">Green</div><div class="tag-hex">#e6f5ec / #1a7d42</div></div>
+      </div>
+      <div class="tag-swatch">
+        <div class="tag-dot" style="background:#f0e8fe;color:#6b3dd4">Aa</div>
+        <div class="tag-info"><div class="tag-label">Purple</div><div class="tag-hex">#f0e8fe / #6b3dd4</div></div>
+      </div>
+      <div class="tag-swatch">
+        <div class="tag-dot" style="background:#fef3e8;color:#c96442">Aa</div>
+        <div class="tag-info"><div class="tag-label">Orange</div><div class="tag-hex">#fef3e8 / #c96442</div></div>
+      </div>
+      <div class="tag-swatch">
+        <div class="tag-dot" style="background:#fce8f0;color:#c43c6e">Aa</div>
+        <div class="tag-info"><div class="tag-label">Pink</div><div class="tag-hex">#fce8f0 / #c43c6e</div></div>
+      </div>
+      <div class="tag-swatch">
+        <div class="tag-dot" style="background:#f0eeea;color:#6b6560">Aa</div>
+        <div class="tag-info"><div class="tag-label">Gray</div><div class="tag-hex">#f0eeea / #6b6560</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== 2. TYPOGRAPHY ====== -->
+  <div class="section">
+    <div class="section-title">Typography · 排版</div>
+
+    <div class="type-row">
+      <div class="type-spec">28px / 650</div>
+      <div class="type-sample" style="font-size:28px;font-weight:650;letter-spacing:-0.5px">页面标题 H1</div>
+    </div>
+    <div class="type-row">
+      <div class="type-spec">22px / 650</div>
+      <div class="type-sample" style="font-size:22px;font-weight:650;letter-spacing:-0.5px">统计数值 Large</div>
+    </div>
+    <div class="type-row">
+      <div class="type-spec">17px / 600</div>
+      <div class="type-sample" style="font-size:17px;font-weight:600">日历月份标签</div>
+    </div>
+    <div class="type-row">
+      <div class="type-spec">15px / 600</div>
+      <div class="type-sample" style="font-size:15px;font-weight:600">日期标题 · Period Label</div>
+    </div>
+    <div class="type-row">
+      <div class="type-spec">14px / 600</div>
+      <div class="type-sample" style="font-size:14px;font-weight:600">运动类型名称（加粗）</div>
+    </div>
+    <div class="type-row">
+      <div class="type-spec">14px / 400</div>
+      <div class="type-sample" style="font-size:14px;font-weight:400">正文内容 Body text</div>
+    </div>
+    <div class="type-row">
+      <div class="type-spec">13px / 500</div>
+      <div class="type-sample" style="font-size:13px;font-weight:500">按钮文字 · 标签文字</div>
+    </div>
+    <div class="type-row">
+      <div class="type-spec">12px / 500</div>
+      <div class="type-sample" style="font-size:12px;font-weight:500;color:var(--text-secondary)">字段标签 · Detail label</div>
+    </div>
+    <div class="type-row">
+      <div class="type-spec">12px / 400</div>
+      <div class="type-sample" style="font-size:12px;font-weight:400;color:var(--text-tertiary)">时间 · 辅助信息 · tabular-nums</div>
+    </div>
+    <div class="type-row">
+      <div class="type-spec">11px / 600</div>
+      <div class="type-sample" style="font-size:11px;font-weight:600;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.5px">Section Title · 表头 · 区域标签</div>
+    </div>
+  </div>
+
+  <!-- ====== 3. SPACING ====== -->
+  <div class="section">
+    <div class="section-title">Spacing · 间距</div>
+
+    <div class="spacing-row"><div class="spacing-label">2xs · 2px</div><div class="spacing-bar" style="width:2px"></div><div class="spacing-px">2</div></div>
+    <div class="spacing-row"><div class="spacing-label">xs · 3px</div><div class="spacing-bar" style="width:3px"></div><div class="spacing-px">3</div></div>
+    <div class="spacing-row"><div class="spacing-label">sm · 4px</div><div class="spacing-bar" style="width:4px"></div><div class="spacing-px">4</div></div>
+    <div class="spacing-row"><div class="spacing-label">md · 8px</div><div class="spacing-bar" style="width:8px"></div><div class="spacing-px">8</div></div>
+    <div class="spacing-row"><div class="spacing-label">lg · 10px</div><div class="spacing-bar" style="width:10px"></div><div class="spacing-px">10</div></div>
+    <div class="spacing-row"><div class="spacing-label">xl · 12px</div><div class="spacing-bar" style="width:12px"></div><div class="spacing-px">12</div></div>
+    <div class="spacing-row"><div class="spacing-label">2xl · 16px</div><div class="spacing-bar" style="width:16px"></div><div class="spacing-px">16</div></div>
+    <div class="spacing-row"><div class="spacing-label">3xl · 20px</div><div class="spacing-bar" style="width:20px"></div><div class="spacing-px">20</div></div>
+    <div class="spacing-row"><div class="spacing-label">4xl · 24px</div><div class="spacing-bar" style="width:24px"></div><div class="spacing-px">24</div></div>
+    <div class="spacing-row"><div class="spacing-label">5xl · 32px</div><div class="spacing-bar" style="width:32px"></div><div class="spacing-px">32</div></div>
+  </div>
+
+  <!-- ====== 4. RADIUS ====== -->
+  <div class="section">
+    <div class="section-title">Radius · 圆角</div>
+    <div class="radius-grid">
+      <div class="radius-item"><div class="radius-box" style="border-radius:4px"></div><div class="radius-name">xs</div><div class="radius-info">4px</div></div>
+      <div class="radius-item"><div class="radius-box" style="border-radius:6px"></div><div class="radius-name">sm</div><div class="radius-info">6px</div></div>
+      <div class="radius-item"><div class="radius-box" style="border-radius:8px"></div><div class="radius-name">md</div><div class="radius-info">8px</div></div>
+      <div class="radius-item"><div class="radius-box" style="border-radius:12px"></div><div class="radius-name">lg</div><div class="radius-info">12px</div></div>
+      <div class="radius-item"><div class="radius-box" style="border-radius:16px"></div><div class="radius-name">xl</div><div class="radius-info">16px</div></div>
+      <div class="radius-item"><div class="radius-box" style="border-radius:20px"></div><div class="radius-name">pill</div><div class="radius-info">20px</div></div>
+      <div class="radius-item"><div class="radius-box" style="border-radius:50%;width:64px;height:64px"></div><div class="radius-name">full</div><div class="radius-info">50%</div></div>
+    </div>
+  </div>
+
+  <!-- ====== 5. SHADOW ====== -->
+  <div class="section">
+    <div class="section-title">Shadow · 阴影</div>
+    <div class="shadow-grid">
+      <div class="shadow-item" style="box-shadow:var(--shadow-sm)">sm</div>
+      <div class="shadow-item" style="box-shadow:0 1px 4px rgba(0,0,0,0.06)">md</div>
+      <div class="shadow-item" style="box-shadow:var(--shadow-lg)">lg</div>
+      <div class="shadow-item" style="box-shadow:var(--shadow-xl)">xl</div>
+    </div>
+  </div>
+
+  <!-- ====== 6. MOTION ====== -->
+  <div class="section">
+    <div class="section-title">Motion · 动效</div>
+    <div class="motion-grid">
+      <div class="motion-item">
+        <div class="motion-box motion-fast"></div>
+        <div class="motion-info">Fast</div>
+        <div class="motion-spec">0.15s ease</div>
+      </div>
+      <div class="motion-item">
+        <div class="motion-box motion-normal"></div>
+        <div class="motion-info">Normal</div>
+        <div class="motion-spec">0.2s ease</div>
+      </div>
+      <div class="motion-item">
+        <div class="motion-box motion-slow"></div>
+        <div class="motion-info">Sheet</div>
+        <div class="motion-spec">0.3s spring</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== 7. COMPONENTS ====== -->
+  <div class="section">
+    <div class="section-title">Components · 组件</div>
+
+    <!-- Buttons -->
+    <div class="comp-row">
+      <div class="comp-label">Buttons</div>
+      <div class="comp-demo">
+        <button class="demo-btn">默认按钮</button>
+        <button class="demo-btn demo-btn-accent">强调按钮</button>
+        <button class="demo-btn demo-btn-disabled" disabled>禁用状态</button>
+      </div>
+    </div>
+
+    <!-- Toggle -->
+    <div class="comp-row">
+      <div class="comp-label">View Toggle</div>
+      <div class="comp-demo">
+        <div class="demo-toggle">
+          <button class="active">按月</button>
+          <button>按周</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Select -->
+    <div class="comp-row">
+      <div class="comp-label">Select</div>
+      <div class="comp-demo">
+        <select class="demo-select">
+          <option>全部类型</option>
+          <option>力量训练</option>
+          <option>瑜伽</option>
+          <option>游泳</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Tag Pill -->
+    <div class="comp-row">
+      <div class="comp-label">Tag Pill（统计标签）</div>
+      <div class="comp-demo">
+        <span class="demo-tag-pill"><span>💪</span><span>力量训练</span><span class="dot"></span><span>8</span></span>
+        <span class="demo-tag-pill"><span>🧘</span><span>瑜伽</span><span class="dot"></span><span>4</span></span>
+        <span class="demo-tag-pill"><span>🏊</span><span>游泳</span><span class="dot"></span><span>2</span></span>
+      </div>
+    </div>
+
+    <!-- Detail Label -->
+    <div class="comp-row">
+      <div class="comp-label">Detail Labels（详情标签）</div>
+      <div class="comp-demo">
+        <span class="demo-detail-label">20Kg × 3组</span>
+        <span class="demo-detail-label">30s × 2</span>
+        <span class="demo-detail-label">1000m</span>
+        <span class="demo-detail-label">60min × 1</span>
+      </div>
+    </div>
+
+    <!-- Stats Bar -->
+    <div class="comp-row">
+      <div class="comp-label">Stats Bar（统计栏）</div>
+      <div class="comp-demo">
+        <div class="demo-stats-bar">
+          <div class="demo-stats-label">本月运动</div>
+          <div class="demo-stats-value">12 <span class="unit">天</span></div>
+          <div class="demo-stats-tags">
+            <span class="demo-tag-pill"><span>💪</span><span>力量训练</span><span class="dot"></span><span>8</span></span>
+            <span class="demo-tag-pill"><span>🧘</span><span>瑜伽</span><span class="dot"></span><span>4</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Day Card -->
+    <div class="comp-row">
+      <div class="comp-label">Day Card（日卡片）</div>
+      <div class="comp-demo">
+        <div class="demo-card">
+          <div class="demo-card-header">
+            <span class="demo-card-date">4月7日</span>
+            <span class="demo-card-weekday">周二</span>
+          </div>
+          <div class="demo-card-body">
+            <div class="demo-card-row">
+              <div class="demo-card-action">深蹲</div>
+              <div class="demo-card-detail">
+                <span class="demo-detail-label">60Kg × 3组</span>
+              </div>
+              <div class="demo-card-time">10:30</div>
+            </div>
+            <div class="demo-card-row">
+              <div class="demo-card-action">卧推</div>
+              <div class="demo-card-detail">
+                <span class="demo-detail-label">40Kg × 4组</span>
+              </div>
+              <div class="demo-card-time">10:45</div>
+            </div>
+            <div class="demo-card-row">
+              <div class="demo-card-action">瑜伽</div>
+              <div class="demo-card-detail">
+                <span class="demo-detail-label">60min × 1</span>
+              </div>
+              <div class="demo-card-time">19:00</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== 8. RESPONSIVE RULES ====== -->
+  <div class="section">
+    <div class="section-title">Responsive · 响应式规则</div>
+    <div style="overflow-x:auto">
+      <table class="rules-table">
+        <thead>
+          <tr><th>属性</th><th>Desktop (> 768px)</th><th>Mobile (≤ 640px)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Container padding</td><td><code>40px 24px</code></td><td><code>16px 12px</code></td></tr>
+          <tr><td>标题 H1</td><td><code>28px</code></td><td><code>22px</code></td></tr>
+          <tr><td>统计数值</td><td><code>28px</code></td><td><code>24px</code></td></tr>
+          <tr><td>Card gap</td><td><code>12px</code></td><td><code>10px</code></td></tr>
+          <tr><td>Card header padding</td><td><code>12px 20px</code></td><td><code>10px 10px</code></td></tr>
+          <tr><td>Table header</td><td>显示</td><td>隐藏</td></tr>
+          <tr><td>时间列</td><td>显示 <code>90px</code></td><td>隐藏</td></tr>
+          <tr><td>Button 尺寸</td><td><code>32px</code></td><td><code>30px</code></td></tr>
+          <tr><td>弹窗形态</td><td>居中弹窗</td><td>底部浮层 (sheet)</td></tr>
+          <tr><td>弹窗圆角</td><td><code>16px</code></td><td><code>16px 16px 0 0</code></td></tr>
+          <tr><td>Safe area</td><td>无</td><td><code>env(safe-area-inset-bottom)</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ====== 9. DESIGN PRINCIPLES ====== -->
+  <div class="section">
+    <div class="section-title">Principles · 设计原则</div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;box-shadow:var(--shadow-sm);font-size:14px;line-height:1.8;color:var(--text-secondary)">
+      <p><strong style="color:var(--text-primary)">1. 暖色中性底</strong> — 用 <code style="background:var(--bg);padding:1px 6px;border-radius:4px;font-size:12px;color:var(--accent)">#f5f4ef</code> 替代纯白/冷灰，传递温暖感而非科技感</p>
+      <p><strong style="color:var(--text-primary)">2. 单一强调色</strong> — 陶土橙 <code style="background:var(--accent-light);padding:1px 6px;border-radius:4px;font-size:12px;color:var(--accent)">#c96442</code> 是唯一的强调色，克制使用：日历运动日、按钮、选中态</p>
+      <p><strong style="color:var(--text-primary)">3. 极浅阴影</strong> — 靠边框 + 底色差异区分层级，阴影仅作辅助，不依赖阴影建立视觉层次</p>
+      <p><strong style="color:var(--text-primary)">4. 半粗体 650</strong> — 标题用 <code style="background:var(--bg);padding:1px 6px;border-radius:4px;font-size:12px;color:var(--accent)">650</code> 而非 700，匹配 SF Pro 的 Semi-bold，视觉更均衡</p>
+      <p><strong style="color:var(--text-primary)">5. 移动端减信息不减触摸</strong> — 隐藏次要信息（时间列、表头），缩小间距，但不缩小交互区域的点击热区</p>
+      <p><strong style="color:var(--text-primary)">6. 底部浮层 &gt; 弹窗</strong> — 移动端的弹窗一律转为底部浮层（sheet），带拖拽把手，符合 iOS 原生交互</p>
+    </div>
+  </div>
+
+  <!-- ====== Footer ====== -->
+  <div style="text-align:center;padding:32px;font-size:12px;color:var(--text-tertiary)">
+    Warm Minimal Design System · Extracted from fitness-dashboard · v1.0
+  </div>
+
+</div>
+
+</body>
+</html>

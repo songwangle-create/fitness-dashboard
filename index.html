@@ -1379,8 +1379,17 @@ function formatDetailLabels(r) {
     }
   }
 
-  // 从 notes 智能解析（非徒步）
-  if (r.notes && type !== '徒步') {
+  // 游泳专属：从 notes 提取距离/时长
+  if (type === '游泳' && r.notes) {
+    const distMatch = r.notes.match(/(\d+)m\s*[×x]\s*\d+次/i);
+    const timeMatch = r.notes.match(/\|\s*(\d+)min$/i);
+    if (distMatch) labels.push(`${distMatch[1]}m`);
+    if (timeMatch) labels.push(`${timeMatch[1]}min`);
+    return labels;
+  }
+
+  // 从 notes 智能解析（非徒步/游泳）
+  if (r.notes && type !== '徒步' && type !== '游泳') {
     const parsed = parseNotesToLabels(r.notes);
     if (parsed.length > 0) {
       parsed.forEach(l => labels.push(l));

@@ -1,0 +1,155 @@
+{
+  "$schema": "warm-minimal design system tokens",
+  "$version": "1.0.0",
+  "$source": "fitness-dashboard (2026-03-30)",
+
+  "color": {
+    "bg": "#f5f4ef",
+    "surface": "#ffffff",
+    "text-primary": "#1a1a1a",
+    "text-secondary": "#6b6560",
+    "text-tertiary": "#9b958f",
+    "border": "#e5e0da",
+    "border-light": "#f0eeea",
+    "accent": "#c96442",
+    "accent-light": "#fdf0eb",
+    "accent-hover": "#b5563a",
+    "status-green": "#22c55e",
+    "hover-bg": "#faf9f6",
+    "tag": {
+      "blue":        { "bg": "#e8f0fe", "text": "#3b6dd4" },
+      "green":       { "bg": "#e6f5ec", "text": "#1a7d42" },
+      "purple":      { "bg": "#f0e8fe", "text": "#6b3dd4" },
+      "orange":      { "bg": "#fef3e8", "text": "#c96442" },
+      "pink":        { "bg": "#fce8f0", "text": "#c43c6e" },
+      "gray":        { "bg": "#f0eeea", "text": "#6b6560" }
+    }
+  },
+
+  "spacing": {
+    "2xs": "2px",
+    "xs": "3px",
+    "sm": "4px",
+    "md": "8px",
+    "lg": "10px",
+    "xl": "12px",
+    "2xl": "16px",
+    "3xl": "20px",
+    "4xl": "24px",
+    "5xl": "32px"
+  },
+
+  "radius": {
+    "xs": "4px",
+    "sm": "6px",
+    "md": "8px",
+    "lg": "12px",
+    "xl": "16px",
+    "pill": "20px",
+    "full": "50%"
+  },
+
+  "font": {
+    "family": "-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif",
+    "size": {
+      "2xs": "11px",
+      "xs": "12px",
+      "sm": "13px",
+      "base": "14px",
+      "md": "15px",
+      "lg": "16px",
+      "xl": "17px",
+      "2xl": "22px",
+      "3xl": "24px",
+      "4xl": "28px"
+    },
+    "weight": {
+      "normal": 400,
+      "medium": 500,
+      "semibold": 600,
+      "bold": 650
+    },
+    "line-height": {
+      "tight": 1,
+      "normal": 1.6
+    },
+    "letter-spacing": {
+      "tight": "-0.5px",
+      "normal": "0",
+      "wide": "0.5px"
+    }
+  },
+
+  "shadow": {
+    "sm": "0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06)",
+    "md": "0 1px 4px rgba(0,0,0,0.06)",
+    "lg": "0 4px 12px rgba(0,0,0,0.06), 0 2px 4px rgba(0,0,0,0.04)",
+    "xl": "0 20px 60px rgba(0,0,0,0.15)",
+    "button": "0 1px 2px rgba(0,0,0,0.06)"
+  },
+
+  "motion": {
+    "fast": "0.15s",
+    "normal": "0.2s",
+    "slow": "0.25s",
+    "sheet": "0.3s",
+    "easing": {
+      "default": "ease",
+      "sheet": "cubic-bezier(0.32, 0.72, 0, 1)"
+    }
+  },
+
+  "layout": {
+    "max-width": "960px",
+    "breakpoint": {
+      "mobile": "640px",
+      "tablet": "768px"
+    },
+    "container-padding": {
+      "desktop": "40px 24px",
+      "tablet": "24px 16px",
+      "mobile": "16px 12px"
+    }
+  },
+
+  "component": {
+    "button": {
+      "height": "32px",
+      "padding": "6px 14px",
+      "font-size": "13px",
+      "font-weight": 500,
+      "radius": "8px"
+    },
+    "card": {
+      "radius": "12px",
+      "border": "1px solid #e5e0da",
+      "shadow": "sm"
+    },
+    "tag-pill": {
+      "padding": "4px 12px",
+      "radius": "20px",
+      "font-size": "13px"
+    },
+    "detail-label": {
+      "padding": "3px 10px",
+      "radius": "6px",
+      "font-size": "12px",
+      "gap": "4px"
+    },
+    "input-select": {
+      "padding": "7px 32px 7px 10px",
+      "font-size": "13px",
+      "radius": "8px"
+    },
+    "drawer": {
+      "top-radius": "16px",
+      "handle-width": "36px",
+      "handle-height": "4px"
+    },
+    "modal": {
+      "radius": "16px",
+      "shadow": "xl",
+      "width": "380px"
+    }
+  }
+}
