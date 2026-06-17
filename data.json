@@ -187,5 +187,13 @@
     "duration": 72,
     "intensity": "中等",
     "notes": "1600m × 1次"
+  },
+  {
+    "date": "2026-06-12",
+    "time": "16:00",
+    "exercise_type": "流瑜伽",
+    "duration": 60,
+    "intensity": "中等",
+    "notes": "60min/节×1节"
   }
 ]
