@@ -1447,6 +1447,16 @@ function parseNotesToLabels(notes) {
     return labels;
   }
 
+  // 匹配拉伸类 "60min/次×1次" 或 "30分钟/次×1次"
+  const stretchPattern = /(\d+)(分钟|min)\/次\s*[×x]\s*(\d+)次/;
+  const stretchMatch = notes.match(stretchPattern);
+  if (stretchMatch) {
+    const val = stretchMatch[1];
+    const times = stretchMatch[3];
+    labels.push(`${val}min × ${times}`);
+    return labels;
+  }
+
   // 匹配重量型 "20kg/组×1组+30kg/组×1组" 或单个 "30kg/组×3组"
   const weightPattern = /(\d+(?:\.\d+)?)kg\/组\s*[×x]\s*(\d+)组/g;
   const weightMatches = [...notes.matchAll(weightPattern)];
