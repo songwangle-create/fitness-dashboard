@@ -224,16 +224,16 @@
     "date": "2026-06-27",
     "time": "17:00",
     "exercise_type": "力量训练",
-    "duration": 180,
+    "duration": 60,
     "intensity": "高强度",
-    "notes": "胸肌训练"
+    "notes": "胸部训练 60min"
   },
   {
     "date": "2026-06-28",
     "time": "16:00",
     "exercise_type": "力量训练",
-    "duration": 210,
+    "duration": 60,
     "intensity": "高强度",
-    "notes": "背+手臂训练"
+    "notes": "背部训练 60min"
   }
 ]
