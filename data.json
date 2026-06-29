@@ -223,7 +223,7 @@
   {
     "date": "2026-06-27",
     "time": "17:00",
-    "exercise_type": "力量训练",
+    "exercise_type": "胸部训练",
     "duration": 60,
     "intensity": "高强度",
     "notes": "胸部训练 60min"
@@ -231,7 +231,7 @@
   {
     "date": "2026-06-28",
     "time": "16:00",
-    "exercise_type": "力量训练",
+    "exercise_type": "背部训练",
     "duration": 60,
     "intensity": "高强度",
     "notes": "背部训练 60min"
