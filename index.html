@@ -1467,6 +1467,16 @@ function parseNotesToLabels(notes) {
     return labels;
   }
 
+  // 匹配力量训练类 "胸部训练 60min" 或 "背部训练 60min"
+  const strengthPattern = /^(.+?)\s+(\d+)min$/;
+  const strengthMatch = notes.trim().match(strengthPattern);
+  if (strengthMatch) {
+    const name = strengthMatch[1];
+    const mins = strengthMatch[2];
+    labels.push(`${mins}min`);
+    return labels;
+  }
+
   // 匹配纯时长 "50秒" "30min"
   const pureTime = /^(\d+)(秒|分钟|min|s)$/;
   const pureMatch = notes.trim().match(pureTime);
