@@ -211,5 +211,29 @@
     "duration": 60,
     "intensity": "中等",
     "notes": "60min/节×1节"
+  },
+  {
+    "date": "2026-06-26",
+    "time": "12:15",
+    "exercise_type": "能量瑜伽",
+    "duration": 60,
+    "intensity": "中等",
+    "notes": "60min/节×1节"
+  },
+  {
+    "date": "2026-06-27",
+    "time": "17:00",
+    "exercise_type": "力量训练",
+    "duration": 180,
+    "intensity": "高强度",
+    "notes": "胸肌训练"
+  },
+  {
+    "date": "2026-06-28",
+    "time": "16:00",
+    "exercise_type": "力量训练",
+    "duration": 210,
+    "intensity": "高强度",
+    "notes": "背+手臂训练"
   }
 ]
