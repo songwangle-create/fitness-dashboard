@@ -235,5 +235,21 @@
     "duration": 60,
     "intensity": "高强度",
     "notes": "背部训练 60min"
+  },
+  {
+    "date": "2026-07-05",
+    "time": "15:00",
+    "exercise_type": "流瑜伽",
+    "duration": 60,
+    "intensity": "中等",
+    "notes": "60min/节×1节"
+  },
+  {
+    "date": "2026-07-05",
+    "time": "20:00",
+    "exercise_type": "游泳",
+    "duration": 60,
+    "intensity": "中等",
+    "notes": "1500m × 1次 | 60min"
   }
 ]
