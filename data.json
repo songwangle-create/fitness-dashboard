@@ -251,5 +251,29 @@
     "duration": 60,
     "intensity": "中等",
     "notes": "1500m × 1次 | 60min"
+  },
+  {
+    "date": "2026-07-11",
+    "time": "19:00",
+    "exercise_type": "流瑜伽",
+    "duration": 60,
+    "intensity": "中等",
+    "notes": "60min/节×1节"
+  },
+  {
+    "date": "2026-07-12",
+    "time": "18:30",
+    "exercise_type": "游泳",
+    "duration": 60,
+    "intensity": "中等",
+    "notes": "1600m × 1次 | 60min"
+  },
+  {
+    "date": "2026-07-13",
+    "time": "17:00",
+    "exercise_type": "肩臂训练",
+    "duration": 60,
+    "intensity": "高强度",
+    "notes": "肩臂训练 60min"
   }
 ]
