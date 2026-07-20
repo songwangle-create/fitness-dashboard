@@ -283,5 +283,13 @@
     "duration": 60,
     "intensity": "高强度",
     "notes": "60min/节×1节"
+  },
+  {
+    "date": "2026-07-19",
+    "time": "17:00",
+    "exercise_type": "胸三头训练",
+    "duration": 60,
+    "intensity": "高强度",
+    "notes": "胸三头训练 60min"
   }
 ]
